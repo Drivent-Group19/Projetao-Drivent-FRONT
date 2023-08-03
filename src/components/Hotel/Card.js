@@ -27,7 +27,7 @@ export default function Card(hotelInfo, selected) {
 const Container = styled.div `
 display: flex;
 flex-direction:column;
-background-color: ${props => props.selected ? 'lightyellow' : 'gray'};
+background-color: ${props => props.selecao ? 'lightyellow' : 'gray'};
 justify-content: space-between;
 align-items: center;
 height: 200px;
