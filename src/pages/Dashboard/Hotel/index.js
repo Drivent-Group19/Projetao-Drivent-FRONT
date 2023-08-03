@@ -14,10 +14,18 @@ export default function Hotel() {
     }
   }, [hotels]);
 
+  const [buttons, setButtons]= useState('');
+  const [selectedId, setSelectedId] = useState(0);
+
+  function Select(info) {
+    setButtons(info.name);
+    setSelectedId(info.id);
+  }
+
   return (<div>
     <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
     <ChooseHotel>Primeiro escolha seu hotel!</ChooseHotel>
-    <CardContainer>{hotels.map((i) => Card(i))}</CardContainer>
+    <CardContainer>{hotels.map((i) => <Button onClick={() => Select(i)} name={i.name} disabled={i.name === buttons ? true : false}>{Card(i, i.name === buttons)}</Button>)}</CardContainer>
   </div>);
 }
 
@@ -36,3 +44,8 @@ justify-content: space-between;
 align-items: center;
 height: 230px;
 margin-top:20px;`;
+
+const Button= styled.button `
+background-color: ${props => props.disabled ? 'lightyellow' : 'gray'};
+height: 200px;
+width:70px;`;

@@ -1,15 +1,17 @@
 
 import styled from 'styled-components';
+import { useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 
-export default function Card(hotelInfo) {
+export default function Card(hotelInfo, selected) {
   let available=0;
 
   for (let i=0; i < hotelInfo.rooms.length; i++) {
     available = available + hotelInfo.rooms[i].capacity;
   }
+
   return (
-    <Container>
+    <Container selecao={selected}>
       <Image src={hotelInfo.image} alt="imagem"/>
       <Name>{hotelInfo.name}</Name>
       <Details>Tipo de Acomodação:
@@ -18,7 +20,6 @@ export default function Card(hotelInfo) {
       <Details>Quantidade de Vagas:
         <div>{available}</div>
       </Details>
-      
     </Container>
   );
 }
@@ -26,7 +27,7 @@ export default function Card(hotelInfo) {
 const Container = styled.div `
 display: flex;
 flex-direction:column;
-background-color: grey;
+background-color: ${props => props.selected ? 'lightyellow' : 'gray'};
 justify-content: space-between;
 align-items: center;
 height: 200px;
