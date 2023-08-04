@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import useHotelWithRooms from '../../hooks/api/useHotelWithRooms';
 
 export default function SpecificRoom(roomInfo) {
   let quantidade = [];

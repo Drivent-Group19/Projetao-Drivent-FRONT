@@ -1,25 +1,20 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import useHotelWithRooms from '../../hooks/api/useHotelWithRooms';
+import useRoomsByHotelId from '../../hooks/api/useRoomsByHotelId';
 import SpecificRoom from './SpecificRoom';
 
 export default function Room(hotelId, buttons) {
-  const { hotelWithRoom } = useHotelWithRooms(hotelId);
+  const { roomsByHotelId } = useRoomsByHotelId(hotelId);
+
   const [details, setDetails] = useState({});
   const [room, setRoom] =useState(0);
-
-  useEffect( () => {
-    if(hotelWithRoom) {
-      setDetails(hotelWithRoom);
-    }
-  }, [hotelWithRoom]);
 
   function Select2(id) {
     setRoom(id);
   }
   
   return (
-    <RoomsContainer selected={buttons}>{details?.rooms?.map((j) => <Button2 onClick={() => Select2(j.id)} disabled={room === j.id ? true : false} color={j.id === room ? true : false} >{SpecificRoom(j)}</Button2>)}</RoomsContainer>
+    <RoomsContainer selected={buttons}>{roomsByHotelId?.map((j) => <Button2 onClick={() => Select2(j.id)} disabled={room === j.id ? true : false} color={j.id === room ? true : false} >{SpecificRoom(j)}</Button2>)}</RoomsContainer>
   );
 };
 

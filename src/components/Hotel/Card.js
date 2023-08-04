@@ -1,23 +1,14 @@
 
 import styled from 'styled-components';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import useHotelWithRooms from '../../hooks/api/useHotelWithRooms';
+import useRoomsByHotelId from '../../hooks/api/useRoomsByHotelId';
 
 export default function Card(hotelInfo, selected) {
-  const { hotelWithRoom } = useHotelWithRooms(hotelInfo.id);
-  const [details, setDetails] = useState({});
-
-  useEffect( () => {
-    if(hotelWithRoom) {
-      setDetails(hotelWithRoom);
-    }
-  }, [hotelWithRoom]);
+  const { roomsByHotelId } = useRoomsByHotelId(hotelInfo.id);
 
   let available=0;
 
-  for (let i=0; i < details.rooms.length; i++) {
-    available = available + details.rooms[i].capacity;
+  for (let i=0; i < roomsByHotelId.length; i++) {
+    available = available + roomsByHotelId[i].capacity;
   }
 
   return (
