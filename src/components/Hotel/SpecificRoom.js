@@ -1,16 +1,18 @@
 import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import useHotelWithRooms from '../../hooks/api/useHotelWithRooms';
 
-export default function Room(roomInfo) {
+export default function SpecificRoom(roomInfo) {
   let quantidade = [];
   for (let i=0; i < roomInfo.capacity; i++) {
     quantidade.push(i);
   }
-
+  
   let tam= quantidade.length;
-
+  
   let notAvailable= roomInfo.bookings.length;
   let dif = tam - notAvailable;
-
+  
   return (
     <Container>
       <div>{roomInfo.id}</div>

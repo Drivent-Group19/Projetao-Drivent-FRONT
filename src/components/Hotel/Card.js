@@ -1,24 +1,33 @@
 
 import styled from 'styled-components';
+import useHotelWithRooms from '../../../hooks/api/useHotelWithRooms';
 import { useState } from 'react';
+import { useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 
 export default function Card(hotelInfo, selected) {
+  const { hotelWithRoom } = useHotelWithRooms(hotelInfo.id);
+  const [details, setDetails] = useState({});
+
+  useEffect( () => {
+    if(hotelWithRoom) {
+      setDetails(hotelWithRoom);
+    }
+  }, [hotelWithRoom]);
+
   let available=0;
 
-  for (let i=0; i < hotelInfo.rooms.length; i++) {
-    available = available + hotelInfo.rooms[i].capacity;
+  for (let i=0; i < details.rooms.length; i++) {
+    available = available + details.rooms[i].capacity;
   }
 
   return (
     <Container selecao={selected}>
       <Image src={hotelInfo.image} alt="imagem"/>
       <Name>{hotelInfo.name}</Name>
-      <Details>Tipo de Acomodação:
-        <div>{hotelInfo.rooms.map((i) => `${i.name}, `)}</div>
+      <Details>Tipo de Acomodação: <div>Single, Double e Triple</div>
       </Details>
-      <Details>Quantidade de Vagas:
-        <div>{available}</div>
+      <Details>Vagas disponíveis: <div>{available}</div>
       </Details>
     </Container>
   );
@@ -27,23 +36,24 @@ export default function Card(hotelInfo, selected) {
 const Container = styled.div `
 display: flex;
 flex-direction:column;
-background-color: ${props => props.selecao ? 'lightyellow' : 'gray'};
-justify-content: space-between;
+background-color: ${props => props.selecao ? 'lightyellow' : 'lightgray'};
+justify-content:space-evenly;
 align-items: center;
-height: 200px;
-width:70px;
+height: 230px;
+width:200px;
+border-radius: 8px;
 `;
 
-const Image= styled.image `
-width:50px;
-height:30px;
+const Image= styled.img `
+width:180px;
+height:100px;
 border-radius: 8px;
-margin-top: 5px;`;
+margin-bottom:-15px;`;
 
 const Name= styled.div `
 height: 15px;
 weight:700;
-font-size: 25px`;
+font-size: 22px;`;
 
 const Details= styled.div `
 weight:700;
