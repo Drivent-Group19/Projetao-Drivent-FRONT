@@ -2,7 +2,6 @@ import Typography from '@material-ui/core/Typography';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import useHotel from '../../../hooks/api/useHotel';
-import useHotelWithRooms from '../../../hooks/api/useHotelWithRooms';
 import Card from '../../../components/Hotel/Card';
 import Room from '../../../components/Hotel/Rooms';
 

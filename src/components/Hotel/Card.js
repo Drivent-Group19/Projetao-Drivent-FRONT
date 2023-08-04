@@ -1,9 +1,8 @@
 
 import styled from 'styled-components';
-import useHotelWithRooms from '../../../hooks/api/useHotelWithRooms';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import Typography from '@material-ui/core/Typography';
+import useHotelWithRooms from '../../hooks/api/useHotelWithRooms';
 
 export default function Card(hotelInfo, selected) {
   const { hotelWithRoom } = useHotelWithRooms(hotelInfo.id);
