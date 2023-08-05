@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import useRoomsByHotelId from '../../hooks/api/useRoomsByHotelId';
 
-export default function Card({ hotelInfo }, { selected }) {
+export default function FinalCard({ hotelInfo }) {
   let available=0;
   if(hotelInfo.id) {
     const { roomsByHotelId } = useRoomsByHotelId(hotelInfo.id);
@@ -13,12 +13,12 @@ export default function Card({ hotelInfo }, { selected }) {
   }
 
   return (
-    <Container selected={selected}>
+    <Container >
       <Image src={hotelInfo.image} alt="imagem"/>
       <Name>{hotelInfo.name}</Name>
       <Details>Tipo de Acomodação: <div>Single, Double e Triple</div>
       </Details>
-      <Details>Vagas disponíveis: <div>{available}</div>
+      <Details>Pessoas no seu quarto: <div>{available}</div>
       </Details>
     </Container>
   );
@@ -27,7 +27,7 @@ export default function Card({ hotelInfo }, { selected }) {
 const Container = styled.div `
 display: flex;
 flex-direction:column;
-background-color: ${props => props.selected ? 'lightyellow' : 'lightgray'};
+background-color: lightyellow;
 justify-content:space-evenly;
 align-items: center;
 height: 230px;
@@ -55,4 +55,3 @@ div {
   height: 7px;
 };
 margin-bottom:5px;`;
-

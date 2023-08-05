@@ -1,16 +1,23 @@
 import styled from 'styled-components';
+import useBookingByRoomId from '../../hooks/api/useBookingByRoomId';
 import { useEffect, useState } from 'react';
 
-export default function SpecificRoom(roomInfo) {
+export default function SpecificRoom({ roomInfo }) {
+  const { bookings } = useBookingByRoomId(roomInfo.id);
+
   let quantidade = [];
   for (let i=0; i < roomInfo.capacity; i++) {
     quantidade.push(i);
   }
   
   let tam= quantidade.length;
-  
-  let notAvailable= roomInfo.bookings.length;
-  let dif = tam - notAvailable;
+  let dif;
+  let notAvailable=0;
+
+  if(bookings) {
+    notAvailable= bookings.length;
+    dif = tam - notAvailable;
+  }
   
   return (
     <Container>
@@ -21,12 +28,12 @@ export default function SpecificRoom(roomInfo) {
 };
 
 const Container = styled.div `
-width:100px;
+width:160px;
 height: 30px;
 display:flex;
 flex-direction:row;
 justify-content: space-between;
 div {
-    width:40px
+    width:60px
 }
 `;

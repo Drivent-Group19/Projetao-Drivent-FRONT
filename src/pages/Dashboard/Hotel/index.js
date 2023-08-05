@@ -8,26 +8,28 @@ import Room from '../../../components/Hotel/Rooms';
 export default function Hotel() {
   const [hoteis, setHoteis] = useState([]);
   const { hotels } = useHotel();
+  const [selectedHotelId, setSelectedHotelId] = useState(0);
+  const [selectedHotel, setSelectedHotel]= useState({});
 
   useEffect( () => {
     if(hotels) {
       setHoteis(hotels);
     }
-  }, [hotels]);
+  }, [hotels, selectedHotelId]);
 
   const [buttons, setButtons]= useState('');
-  const [selectedHotelId, setSelectedHotelId] = useState(0);
 
   function Select(info) {
     setButtons(info.name);
     setSelectedHotelId(info.id);
+    setSelectedHotel(info);
   }
 
   return (<div>
     <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
     <ChooseHotel>Primeiro escolha seu hotel!</ChooseHotel>
-    <CardContainer>{hotels?.map((i) => <Button onClick={() => Select(i)} name={i.name} disabled={i.name === buttons ? true : false}>{Card(i, i.name === buttons)}</Button>)}</CardContainer>
-    <BedroomsContainer>{Room(selectedHotelId, buttons)}</BedroomsContainer>
+    <CardContainer>{hoteis[0] ? hoteis.map((i) => <Button onClick={() => Select(i)} name={i.name} disabled={i.name === buttons ? true : false}><Card hotelInfo={i} selected={i.name === buttons ? true: false}/></Button>) : ''}</CardContainer>
+    <BedroomsContainer>{ selectedHotelId !== 0 ? <Room hotel={selectedHotel}/> : '' }</BedroomsContainer>
 
   </div>);
 }
@@ -57,10 +59,8 @@ z-index:4;
 border-radius: 8px;`;
 
 const BedroomsContainer = styled.div `
-width: 500px;
+width: 800px;
+margin-top: 40px;
+margin-left:40px;
 `;
 
-const Button2= styled.div `
-background-color: ${props => props.disabled ? 'lightgray': props.color ? 'lightyellow' : 'white'};
-width:100px;
-height: 30px;`;

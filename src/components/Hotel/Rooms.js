@@ -2,29 +2,62 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import useRoomsByHotelId from '../../hooks/api/useRoomsByHotelId';
 import SpecificRoom from './SpecificRoom';
+import FinalCard from './FinalCard';
 
-export default function Room(hotelId, buttons) {
-  const { roomsByHotelId } = useRoomsByHotelId(hotelId);
+export default function Room({ hotel }) {
+  console.log(hotel);
+  const { roomsByHotelId } = useRoomsByHotelId(hotel.id);
+  const [rooms, setRooms] = useState([]);
 
-  const [details, setDetails] = useState({});
-  const [room, setRoom] =useState(0);
+  useEffect( () => {
+    if(roomsByHotelId) {
+      setRooms(roomsByHotelId);
+    }
+  }, [roomsByHotelId]);
 
-  function Select2(id) {
-    setRoom(id);
+  const [room, setRoom] =useState({});
+  console.log(room.id);
+
+  function Select2(info) {
+    setRoom(info);
   }
   
   return (
-    <RoomsContainer selected={buttons}>{roomsByHotelId?.map((j) => <Button2 onClick={() => Select2(j.id)} disabled={room === j.id ? true : false} color={j.id === room ? true : false} >{SpecificRoom(j)}</Button2>)}</RoomsContainer>
+    <div>
+      <RoomsContainer>{rooms?.map((j) => <Button2 onClick={() => Select2(j)} disabled={room.id === j.id ? true : false} color={j.id === room ? true : false} ><SpecificRoom roomInfo={j}/></Button2>)}</RoomsContainer>
+      <ReserveContainer> {room.id !== undefined ? <Reserve>RESERVAR QUARTO</Reserve> : ''}</ReserveContainer>
+    </div>
+
   );
 };
 
 const RoomsContainer = styled.div `
-display: ${props => props.selected === '' ? 'none' : 'flex'};
+display: flex;
 flex-wrap: wrap;
-width: 500px;
+width: 800px;
+justify-content: space-between;
+align-items: center;
 `;
 
 const Button2= styled.div `
-background-color: ${props => props.disabled ? 'lightgray': props.color ? 'lightyellow' : 'white'};
-width:100px;
-height: 30px;`;
+background-color: ${props => props.disabled ? 'lightyellow': props.color ? 'lightyellow' : 'white'};
+width:160px;
+height: 40px;
+border-radius:8px;
+margin-top:5px;
+padding:5px;
+border: solid;
+border-color: lightgray;`;
+
+const ReserveContainer = styled.div `
+width:160px;`;
+
+const Reserve = styled.button `
+width:160px;
+height: 40px;
+justify-content:center;
+align-items: center;
+margin-top: 40px;
+border-radius:8px;
+border-style:groove;`;
+
