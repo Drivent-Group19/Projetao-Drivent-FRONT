@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Label } from '../../../components/Auth';
 import useTicket from '../../../hooks/api/useTicket';
+import ActivitiesComponents from '../../../components/Activities';
 
 export default function Activities() {
   const { ticket } = useTicket();
@@ -16,6 +17,9 @@ export default function Activities() {
       </>
     );
   }
+  // fazer outro if para verificar se o tipo do ticket inclue hotel
+
+  return <ActivitiesComponents />;
 }
 
 const Paragraph = styled.p`
