@@ -3,6 +3,10 @@ import { CgEnter } from 'react-icons/cg';
 import { GiCancel } from 'react-icons/gi';
 
 export default function EventTime() {
+  function open(e) {
+    console.log('entrou', e);
+  }; 
+
   return (
     <>
       <Locals>
@@ -18,7 +22,7 @@ export default function EventTime() {
               <p>09:00 - 10:00</p>
             </Activity>
             <Line2></Line2>
-            <Icon>
+            <Icon onClick={(e) => open(e.target)}>
               <CgEnter size={20} color="green"/>
               <p>20 vagas</p>
             </Icon>
@@ -29,7 +33,7 @@ export default function EventTime() {
               <p>10:00 - 11:00</p>
             </Activity>
             <Line2></Line2>
-            <Icon>
+            <Icon color='red'>
               <GiCancel size={20} color="red"/>
               <p>Esgotado</p>
             </Icon>
@@ -43,7 +47,7 @@ export default function EventTime() {
               <p>09:00 - 10:00</p>
             </Activity>
             <Line2></Line2>
-            <Icon>
+            <Icon onClick={(e) => open(e.target)}>
               <CgEnter size={20} color="green"/>
               <p>20 vagas</p>
             </Icon>
@@ -57,7 +61,7 @@ export default function EventTime() {
               <p>09:00 - 10:00</p>
             </Activity>
             <Line2></Line2>
-            <Icon>
+            <Icon onClick={(e) => open(e.target)}>
               <CgEnter size={20} color="green"/>
               <p>20 vagas</p>
             </Icon>
@@ -129,16 +133,18 @@ const Line2 = styled.div`
     border: 1px solid #CFCFCF;
 `;
 
-const Icon = styled.div`
+const Icon = styled.button`
     width: 25%;
     display: flex;
     flex-direction: column;
     text-align: center;
     justify-content: center;
     align-items: center;
+    border: none;
     p{
         font-size: 9px;
-        color: #078632;
+        color: ${props => (props.color === 'red' ? 'red' : '#078632')};
+        /* color: #078632; */
     }
 `;
 
