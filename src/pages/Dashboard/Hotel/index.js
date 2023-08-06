@@ -47,8 +47,7 @@ export default function Hotel() {
         <MessageContainer>Seu pagamento não foi confirmado.
           <p>Efetue o pagamento para reservar um hotel.</p></MessageContainer>
       ) : (isNotIncludeHotel ?
-        <MessageContainer>Sua modalidade de ingresso não inclui hospedagem. 
-          <p>Prossiga para a escolha de atividades.</p></MessageContainer>
+        <MessageContainer>Sua modalidade de ingresso não inclui hospedagem. Prossiga para a escolha de atividades.</MessageContainer>
         : 
         'Mostrar hoteis'
       )}
@@ -57,7 +56,7 @@ export default function Hotel() {
 }
 
 const MessageContainer = styled.div`
-  size: 20px;
+  font-size: 20px;
   line-height: 23.44px;
   text-align: center;
   color: #8E8E8E;
