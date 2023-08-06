@@ -23,7 +23,7 @@ import { ErrorMsg } from './ErrorMsg';
 import { ufList } from './ufList';
 import FormValidations from './FormValidations';
 
-dayjs.extend(CustomParseFormat);
+dayjs.extend(CustomParseFormat); 
 
 export default function PersonalInformationForm() {
   const [dynamicInputIsLoading, setDynamicInputIsLoading] = useState(false);

@@ -1,33 +1,44 @@
 import styled from 'styled-components';
 import { Label } from '../../../components/Auth';
 import useTicket from '../../../hooks/api/useTicket';
-import ActivitiesComponents from '../../../components/Activities';
 
 export default function Activities() {
+//Área liberada somente após usuário terminar a inscrição, pagar e escolher o hotel (se for o caso)
+//Não sendo o caso, a tela “Atividades - Não Disponível” aparece.
+
+  //Se o ingresso não inclui hospedagem, o usuário já tem acesso a todas as atividades, 
+  //como demonstrado na tela “Atividades - Tudo Incluído”.
+
+  const [isNotAvailable, setIsNotAvailable] = useState(false);
+  const [isAllInclusive, setIsAllInclusive] = useState(false);
+
   const { ticket } = useTicket();
 
   if (ticket?.status !== 'PAID') {
-    return (
+    /* return (
       <>
-        <Label>Escolha de atividades</Label>
+        <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
         <Paragraph>
-          Você precisa ter confirmado pagamento antes
-          <br /> de fazer a escolha de atividades
+          Você precisa ter confirmado o pagamento antes de fazer a escolha de atividades
         </Paragraph>
       </>
-    );
+    ); */
   }
-  // fazer outro if para verificar se o tipo do ticket inclue hotel
-
-  return <ActivitiesComponents />;
 }
 
-const Paragraph = styled.p`
-  font-family: Roboto;
-  font-size: 20px;
-  line-height: 23px;
-  font-weight: 400;
-  text-align: center;
-  color: #8e8e8e;
-  margin-top: 240px;
+const StyledTypography = styled(Typography)`
+  margin-bottom: 20px!important;
 `;
+
+const Paragraph = styled.div`
+  font-size: 20px;
+  line-height: 23.44px;
+  text-align: center;
+  color: #8E8E8E;
+  width: 411px;
+  height: 46px;
+  position: absolute; 
+  top: 40%;
+  left: 30%;
+`;
+
