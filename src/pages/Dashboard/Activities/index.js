@@ -8,18 +8,10 @@ import ActivitiesBlock from '../../../components/Activities';
 export default function Activities() {
 //Área liberada somente após usuário terminar a inscrição, pagar e escolher o hotel (se for o caso)
 //Não sendo o caso, a tela “Atividades - Não Disponível” aparece.
-//Isto é /msg de confirmação de pagamento
-//Se o ingresso não inclui hospedagem, o usuário já tem acesso a todas as atividades, 
-//como demonstrado na tela “Atividades - Tudo Incluído”.
-// msg: Sua modalidade de ingresso não necessita escolher atividade. Você terá acesso a todas as atividades.
-  //Buscar atividades
-/*   Instruções
-As atividades são divididas por dias e espaços.
-Cada atividade tem um número limitado de vagas, sendo assim, se estiver esgotada, 
-novos integrantes não podem se cadastrar (lembrando que aqui estamos considerando 
-a participação em um espaço físico).
-O usuário não pode se cadastrar em dois eventos que acontecem simultaneamente.
-Não é possível desfazer uma reserva em um evento. */
+
+  //Se o ingresso não inclui hospedagem, o usuário já tem acesso a todas as atividades, 
+  //como demonstrado na tela “Atividades - Tudo Incluído”.
+
   const [isNotAvailable, setIsNotAvailable] = useState(false);
   const [isAllInclusive, setIsAllInclusive] = useState(false);
 
