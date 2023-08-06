@@ -1,24 +1,21 @@
 
 import styled from 'styled-components';
-import useRoomsByHotelId from '../../hooks/api/useRoomsByHotelId';
+import useRoomById from '../../hooks/api/useRoomById';
+import useHotelById from '../../hooks/api/useHotel';
+import { useState, useEffect } from 'react';
 
-export default function FinalCard({ hotelInfo }) {
-  let available=0;
-  if(hotelInfo.id) {
-    const { roomsByHotelId } = useRoomsByHotelId(hotelInfo.id);
-
-    roomsByHotelId?.forEach( (room) => {
-      available= available + room.capacity;
-    });
-  }
+export default function FinalCard({ booking }) {
+  const [hotelInfo, setInfo] = useState({});
+  const { hotel } = useHotelById( booking.Room.hotelId);
+  console.log(hotel);
 
   return (
     <Container >
-      <Image src={hotelInfo.image} alt="imagem"/>
-      <Name>{hotelInfo.name}</Name>
+      <Image src={hotel?.image} alt="imagem"/>
+      <Name>{hotel?.name}</Name>
       <Details>Tipo de Acomodação: <div>Single, Double e Triple</div>
       </Details>
-      <Details>Pessoas no seu quarto: <div>{available}</div>
+      <Details>Pessoas no seu quarto: <div></div>
       </Details>
     </Container>
   );

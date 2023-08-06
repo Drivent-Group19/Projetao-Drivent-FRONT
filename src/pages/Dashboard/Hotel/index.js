@@ -4,16 +4,20 @@ import styled from 'styled-components';
 import useHotel from '../../../hooks/api/useHotel';
 import Card from '../../../components/Hotel/Card';
 import Room from '../../../components/Hotel/Rooms';
+import FinalCard from '../../../components/Hotel/FinalCard';
+import useGetBookingByUser from '../../../hooks/api/useGetBookingByUser';
 
 export default function Hotel() {
   const [hoteis, setHoteis] = useState([]);
   const { hotels } = useHotel();
+  const { userBooking }  = useGetBookingByUser();
   const [selectedHotelId, setSelectedHotelId] = useState(0);
   const [selectedHotel, setSelectedHotel]= useState({});
 
   useEffect( () => {
     if(hotels) {
       setHoteis(hotels);
+      console.log(userBooking);
     }
   }, [hotels, selectedHotelId]);
 
@@ -27,9 +31,10 @@ export default function Hotel() {
 
   return (<div>
     <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-    <ChooseHotel>Primeiro escolha seu hotel!</ChooseHotel>
-    <CardContainer>{hoteis[0] ? hoteis.map((i) => <Button onClick={() => Select(i)} name={i.name} disabled={i.name === buttons ? true : false}><Card hotelInfo={i} selected={i.name === buttons ? true: false}/></Button>) : ''}</CardContainer>
-    <BedroomsContainer>{ selectedHotelId !== 0 ? <Room hotel={selectedHotel}/> : '' }</BedroomsContainer>
+    {userBooking ? <FinalCard booking={userBooking} /> : 
+      <><ChooseHotel>Primeiro escolha seu hotel!</ChooseHotel>
+        <CardContainer>{hoteis[0] ? hoteis.map((i) => <Button onClick={() => Select(i)} name={i.name} disabled={i.name === buttons ? true : false}><Card hotelInfo={i} selected={i.name === buttons ? true : false} /></Button>) : ''}</CardContainer>
+        <BedroomsContainer>{selectedHotelId !== 0 ? <Room hotel={selectedHotel} /> : ''}</BedroomsContainer></>}
 
   </div>);
 }

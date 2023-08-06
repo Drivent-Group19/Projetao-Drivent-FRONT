@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import useRoomsByHotelId from '../../hooks/api/useRoomsByHotelId';
 import SpecificRoom from './SpecificRoom';
 import useMakeBooking from '../../hooks/api/useMakeBooking';
-import FinalCard from './FinalCard';
 
 export default function Room({ hotel }) {
   console.log(hotel);
