@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import useRoomsByHotelId from '../../hooks/api/useRoomsByHotelId';
 import SpecificRoom from './SpecificRoom';
+import useMakeBooking from '../../hooks/api/useMakeBooking';
 import FinalCard from './FinalCard';
 
 export default function Room({ hotel }) {
@@ -21,11 +22,15 @@ export default function Room({ hotel }) {
   function Select2(info) {
     setRoom(info);
   }
+
+  function Reserve() {
+    useMakeBooking(room.id);
+  }
   
   return (
     <div>
       <RoomsContainer>{rooms?.map((j) => <Button2 onClick={() => Select2(j)} disabled={room.id === j.id ? true : false} color={j.id === room ? true : false} ><SpecificRoom roomInfo={j}/></Button2>)}</RoomsContainer>
-      <ReserveContainer> {room.id !== undefined ? <Reserve>RESERVAR QUARTO</Reserve> : ''}</ReserveContainer>
+      <ReserveContainer> {room.id !== undefined ? <Reserve onClick={Reserve}>RESERVAR QUARTO</Reserve> : ''}</ReserveContainer>
     </div>
 
   );
