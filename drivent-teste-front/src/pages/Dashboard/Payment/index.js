@@ -10,6 +10,10 @@ import { InputWrapper } from '../../../components/PersonalInformationForm/InputW
 import Input from '../../../components/Form/Input';
 import { toast } from 'react-toastify';
 import { makePayment, reserveTicket } from '../../../services/paymentApi';
+import styled from 'styled-components';
+import useEnrollment from '../../../hooks/api/useEnrollment';
+import { useState } from 'react';
+
 export default function Payment() {
   const token = useToken();
   const [ticketsType, setTicketsType] = React.useState([]);
@@ -18,7 +22,7 @@ export default function Payment() {
   const { data: enrollmentData, getEnrollmentLoading } = useGetEnrollment();
   const [savedEnrollment, setSavedEnrollment] = React.useState(enrollmentData ? true : false);
   const [show, setShow] = React.useState('ingresso');
-  const initialValues =  {
+  const initialValues = {
     name: '',
     validThru: '',
     cardNumber: '',
@@ -27,15 +31,10 @@ export default function Payment() {
   };
   const [data, setData] = React.useState(initialValues);
 
-  function calculateFinalPrice() {
-    if(!typeSelected.isRemote) return Number(typeSelected.price) + Number(hotelSelected.price);  
-    return typeSelected.price;
-  }
-
   useEffect(() => {
-    if(enrollmentData) {
+    if (enrollmentData) {
       setSavedEnrollment(true);
-    }else {
+    } else {
       setSavedEnrollment(false);
     }
     ticketTypeApi(token)
@@ -43,7 +42,50 @@ export default function Payment() {
       .catch((err) => console.log(err));
   }, [getEnrollmentLoading]);
 
-  if(getEnrollmentLoading) return <></>;
+  if (getEnrollmentLoading) return <></>;
+
+  const [value, setValue] = useState(0);
+  const [model, setModel] = useState('');
+  const [hotel, setHotel] = useState('');
+  const [optionOne, setOptionOne] = useState('');
+  const [optionTwo, setOptionTwo] = useState('');
+  const [reserved, setReserved] = useState('');
+  const { enrollment } = useEnrollment();
+
+  function calculateFinalPrice() {
+    if (!typeSelected.isRemote) return Number(typeSelected.price) + Number(hotelSelected.price);
+    return typeSelected.price;
+  }
+
+  function presencial(i) {
+    setValue(250);
+    setModel(i);
+    setOptionOne(i);
+  }
+
+  function online(i) {
+    setValue(100);
+    setModel(i);
+    setHotel('');
+    setOptionOne(i);
+    setOptionTwo('');
+  }
+
+  function withHotel(i) {
+    setValue(value + 350);
+    setHotel(i);
+    setOptionTwo(i);
+  }
+
+  function withoutHotel(i) {
+    setValue(250);
+    setHotel(i);
+    setOptionTwo(i);
+  }
+
+  function reserv() {
+    setReserved('reserved');
+  }
 
   return (
     <>
@@ -51,13 +93,13 @@ export default function Payment() {
         <Title>Ingresso e Pagamento</Title>
         <Container show={show}>
           <Description includesHotel={true}>Primeiro, escolha sua modalidade de ingresso</Description>
-          
+
           <OpetionContainer includesHotel={true}>
             {ticketsType.map(({ id, name, includesHotel, isRemote, price }) => {
               return (
                 <Option key={id}
-                  id={id} 
-                  name={name} 
+                  id={id}
+                  name={name}
                   includesHotel={includesHotel}
                   isRemote={isRemote}
                   price={price}
@@ -67,30 +109,30 @@ export default function Payment() {
               );
             })}
           </OpetionContainer>
-          
+
           <Description includesHotel={typeSelected.includesHotel} >Ótimo! Agora escolha sua modalidade de Hospedagem</Description>
           <OpetionContainer includesHotel={typeSelected.includesHotel} >
-            <OptionBox selectedBackground={hotelSelected.name === 'Sem hotel'} 
+            <OptionBox selectedBackground={hotelSelected.name === 'Sem hotel'}
               onClick={() => setHotelSelected({ name: 'Sem hotel', price: '0' })}>
               <OptionType>Sem hotel</OptionType>
               <OpetionPrice>+ R$ 0</OpetionPrice>
             </OptionBox>
 
-            <OptionBox selectedBackground={hotelSelected.name === 'Com hotel'} 
+            <OptionBox selectedBackground={hotelSelected.name === 'Com hotel'}
               onClick={() => setHotelSelected({ name: 'Com hotel', price: '250' })}>
               <OptionType>Com Hotel</OptionType>
               <OpetionPrice>+ R$ 250</OpetionPrice>
             </OptionBox>
           </OpetionContainer>
-          <Description includesHotel={hotelSelected.name !== '' || typeSelected.isRemote } >Fechado! O total ficou em <strong>R$ {calculateFinalPrice()}</strong>. Agora é só confirmar!</Description>
-          <ConfirmButton includesHotel={hotelSelected.name !== '' || typeSelected.isRemote } 
+          <Description includesHotel={hotelSelected.name !== '' || typeSelected.isRemote} >Fechado! O total ficou em <strong>R$ {calculateFinalPrice()}</strong>. Agora é só confirmar!</Description>
+          <ConfirmButton includesHotel={hotelSelected.name !== '' || typeSelected.isRemote}
             onClick={() => {
               setShow('ingresso escolhido');
               console.log(typeSelected.id);
               reserveTicket({ ticketTypeId: typeSelected.id }, token)
                 .then(data => console.log(data))
                 .catch((err) => console.log(err));
-            }}>RERSERVAR INGRESSO</ConfirmButton>
+            }}>RESERVAR INGRESSO</ConfirmButton>
         </Container>
         <DescriptionB show={show}>Ingresso escolhido</DescriptionB>
         <OptionBoxB show={show}>
@@ -104,7 +146,7 @@ export default function Payment() {
             <FormWrapper>
               <InputWrapper>
                 <Input
-                  label="Card Number"
+                  label="Número do Cartão"
                   name="cardNumber"
                   type="text"
                   mask='9999 9999 9999 9999'
@@ -116,7 +158,7 @@ export default function Payment() {
               <InputWrapper>
                 <Input
                   name="name"
-                  label="Name"
+                  label="Nome no Cartão"
                   type="text"
                   value={data.name}
                   onChange={(e) => setData({ ...data, name: e.target.value })}
@@ -156,7 +198,7 @@ export default function Payment() {
               name: data.name,
               expirationDate: data.validThru,
               cvv: data.cvc
-            }         
+            }
           };
           makePayment(body, token)
             .then(() => {
@@ -169,14 +211,143 @@ export default function Payment() {
             });
         }}>FINALIZAR PAGAMENTO</Button>
         <ContainerC show={show}>
-          <Icon/>
+          <Icon />
           <div>
             <h2>Pagamento confirmado!!</h2>
             <h3>Prossiga para escolha de hospedagem e atividades</h3>
           </div>
         </ContainerC>
       </PaymentPage>
-      <NonAvailablePage isAllowed={savedEnrollment}>Voce precisa completar sua incrição antes de prosseguir pra escolha de ingresso</NonAvailablePage>
+      <NonAvailablePage isAllowed={savedEnrollment}>Você precisa completar sua inscrição antes de prosseguir para a escolha de ingresso</NonAvailablePage>
+      {reserved !== 'reserved' ? <>
+        <Label>Escolha de atividades</Label>
+        <Category>Primeiro, escolha sua modalidade de ingresso</Category>
+        <Buttons>
+          <Option disabled={'Presencial' === optionOne ? true : false} onClick={() => presencial('Presencial')}>
+            <Text>Presencial</Text>
+            <Text2>R$ 250</Text2>
+          </Option>
+          <Option disabled={'Online' === optionOne ? true : false} onClick={() => online('Online')}>
+            <Text>Online</Text>
+            <Text2>R$ 100</Text2>
+          </Option>
+        </Buttons>
+        {model === 'Presencial' ? <>
+          <Category>Ótimo! Agora escolha sua modalidade de hospedagem</Category>
+          <Buttons>
+            <Option disabled={'Sem Hotel' === optionTwo ? true : false} onClick={() => withoutHotel('Sem Hotel')}>
+              <Text>Sem Hotel</Text>
+              <Text2>+ R$ 0</Text2>
+            </Option>
+            <Option disabled={'Com Hotel' === optionTwo ? true : false} onClick={() => withHotel('Com Hotel')}>
+              <Text>Com Hotel</Text>
+              <Text2>+ R$ 350</Text2>
+            </Option>
+          </Buttons>
+        </> : ''}
+        {hotel === 'Com Hotel' || hotel === 'Sem Hotel' || model === 'Online' ? <>
+          <Category>Fechado! O total ficou em R$ {value}. Agora é só confirmar:</Category>
+          <Reserv onClick={() => reserv()}>
+            <p>Reservar Ingresso</p>
+          </Reserv>
+        </> : ''}
+      </> : <>
+        <Label>Escolha de atividades</Label>
+        <Category>Ingresso escolhido</Category>
+        <Ticket>
+          <Text>{model} + {hotel} </Text>
+          <Text2>R$ {value}</Text2>
+        </Ticket>
+      </>}
     </>
   );
 }
+
+
+const Paragraph = styled.p`
+  font-family: Roboto;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 400;
+  text-align: center;
+  color: #8e8e8e;
+  margin-top: 240px;
+`;
+
+const Category = styled.p`
+  font-family: Roboto;
+  font-size: 20px;
+  line-height: 23px;
+  font-weight: 400;
+  color: #8e8e8e;
+  margin-top: 240px;
+  margin-top: 30px;
+`;
+
+const Buttons = styled.div`
+  margin-top: 20px;
+  display: flex;
+`;
+
+const Option = styled.button`
+  width: 145px;
+  height: 145px;
+  top: 323px;
+  left: 341px;
+  border-radius: 20px;
+  margin-right: 20px;
+  border: 1px solid ${props => props.disabled ? '#FFEED2' : '#CECECE'};
+  background-color: ${props => props.disabled ? '#FFEED2' : '#FFFFFF'};
+`;
+
+const Text = styled.p`
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #454545;
+    margin-top: 10px;
+`;
+
+const Text2 = styled.p`
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.41px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #898989;
+    margin-top: 5px;
+`;
+
+const Reserv = styled.button`
+    margin-top: 15px;
+    width: 162px;
+    height: 37px;
+    top: 552px;
+    left: 341px;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0px 2px 10px 0px #00000040;
+   p{
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: center;
+}
+`;
+
+const Ticket = styled.button`
+    margin-top: 15px;
+    width: 290px;
+    height: 108px;
+    top: 292px;
+    left: 330px;
+    border-radius: 20px;
+    background: #FFEED2;
+    border: none;
+`;
