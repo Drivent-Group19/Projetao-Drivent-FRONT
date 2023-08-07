@@ -43,17 +43,27 @@ export async function getBookingsByRoomId(token, roomId) {
 };
 
 export async function makeBooking(token, roomId) {
-  const response = await api.post('/booking', {
+  const response = await api.post('/booking', { roomId }, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  }, { roomId });
+  });
 
   return response.data;
 };
 
 export async function getBookingByUser(token) {
   const response = await api.get('/booking', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+};
+
+export async function updateBooking(token, roomId, bookingId) {
+  const response = await api.put(`/booking/${bookingId}`, { roomId }, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

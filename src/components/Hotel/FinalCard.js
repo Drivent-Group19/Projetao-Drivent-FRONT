@@ -1,23 +1,33 @@
 
 import styled from 'styled-components';
-import useRoomById from '../../hooks/api/useRoomById';
-import useHotelById from '../../hooks/api/useHotel';
+import ChangeRoom from './ChangeRoom';
+import useHotelById from '../../hooks/api/useHotelById';
 import { useState, useEffect } from 'react';
 
 export default function FinalCard({ booking }) {
+  console.log(booking.id);
   const [hotelInfo, setInfo] = useState({});
   const { hotel } = useHotelById( booking.Room.hotelId);
+  const [selected, setSelected]=useState(false);
   console.log(hotel);
 
+  function Change() {
+    setSelected(true);
+    console.log(booking.id);
+  }
+
   return (
-    <Container >
-      <Image src={hotel?.image} alt="imagem"/>
+    <><Container>
+      <Image src={hotel?.image} alt="imagem" />
       <Name>{hotel?.name}</Name>
       <Details>Tipo de Acomodação: <div>Single, Double e Triple</div>
       </Details>
       <Details>Pessoas no seu quarto: <div></div>
       </Details>
     </Container>
+    <Reserve onClick={Change}>TROCAR QUARTO</Reserve>
+    { selected ? <BedroomsContainer>{selected  ? <ChangeRoom hotel={hotel} bookingId={booking.id} /> : ''}</BedroomsContainer> : ''}
+    </>
   );
 }
 
@@ -30,6 +40,7 @@ align-items: center;
 height: 230px;
 width:200px;
 border-radius: 8px;
+margin-bottom:10px;
 `;
 
 const Image= styled.img `
@@ -52,3 +63,18 @@ div {
   height: 7px;
 };
 margin-bottom:5px;`;
+
+const Reserve = styled.button `
+    width:160px;
+    height: 40px;
+    justify-content:center;
+    align-items: center;
+    margin-top: 40px;
+    border-radius:8px;
+    border-style:groove;`;
+
+const BedroomsContainer = styled.div `
+width: 800px;
+margin-top: 40px;
+margin-left:40px;
+`;

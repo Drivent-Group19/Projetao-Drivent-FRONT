@@ -13,13 +13,14 @@ export default function Hotel() {
   const { userBooking }  = useGetBookingByUser();
   const [selectedHotelId, setSelectedHotelId] = useState(0);
   const [selectedHotel, setSelectedHotel]= useState({});
+  const [book, setBook]= useState({});
 
   useEffect( () => {
     if(hotels) {
       setHoteis(hotels);
-      console.log(userBooking);
+      setBook(userBooking);
     }
-  }, [hotels, selectedHotelId]);
+  }, [hotels]);
 
   const [buttons, setButtons]= useState('');
 
