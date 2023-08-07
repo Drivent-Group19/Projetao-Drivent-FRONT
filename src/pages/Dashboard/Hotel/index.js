@@ -4,62 +4,43 @@ import styled from 'styled-components';
 import useHotel from '../../../hooks/api/useHotel';
 import Card from '../../../components/Hotel/Card';
 import Room from '../../../components/Hotel/Rooms';
-import useToken from '../../../hooks/useToken';
-import api from '../../../services/api';
+import useTicket from '../../../hooks/api/useTicket';
 
 export default function Hotel() {
   const [hoteis, setHoteis] = useState([]);
   const { hotels } = useHotel();
+  const { ticket } = useTicket();
   const [selectedHotelId, setSelectedHotelId] = useState(0);
   const [selectedHotel, setSelectedHotel]= useState({});
   const [buttons, setButtons]= useState('');
-
   const [isNotPaid, setIsNotPaid] = useState(false);
   const [isNotIncludeHotel, setIsNotIncludeHotel] = useState(false);
 
   useEffect( () => {
-    if(hotels) {
-      setHoteis(hotels);
+    //buscar informações sobre pagamento
+    //se não estiver pago 
+    /*  if (ticket.status === 'RESERVED') {
+      setIsNotPaid(true);
+      setIsNotIncludeHotel(false);
     }
-  }, [hotels, selectedHotelId]);
+    // se não houver hotel
+    else if (ticket.includesHotel === false) {
+      setIsNotPaid(false);
+      setIsNotIncludeHotel(true); 
+    }*/
+    /* else  */ if(hotels) {
+      /* setIsNotPaid(false); */
+      /* setIsNotIncludeHotel(false); */
+      setHoteis(hotels);
+      console.log(hotels);
+    }
+  }, [/* ticket, */ hotels, selectedHotelId]);
 
   function Select(info) {
     setButtons(info.name);
     setSelectedHotelId(info.id);
     setSelectedHotel(info);
   }
-
-  //buscar informações sobre pagamento
-
-  const token = useToken();
-  console.log(token);
-  async function getTicket(token) {
-    let res = '';
-    try{
-      const response = await api.get('/tickets', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    
-      res = response.data;
-    }
-    catch (erro) {
-      console.log(erro);
-      res = erro;
-    }
-    //se não estiver pago 
-    if (res.status === 'RESERVED') {
-      setIsNotPaid(true);
-      setIsNotIncludeHotel(false);
-    }
-    // se não houver hotel
-    if (res.includesHotel === false) {
-      setIsNotPaid(false);
-      setIsNotIncludeHotel(true);
-    }
-  }
-  getTicket(token);
 
   return (
     <>
