@@ -5,7 +5,7 @@ import SpecificRoom from './SpecificRoom';
 import { updateBooking } from '../../services/hotelApi';
 import useToken from '../../hooks/useToken';
 
-export default function ChangeRoom({ hotel }, { bookingId } ) {
+export default function ChangeRoom({ hotel, bookingId } ) {
   console.log(bookingId);
   const token = useToken();
   const { roomsByHotelId } = useRoomsByHotelId(hotel.id);
