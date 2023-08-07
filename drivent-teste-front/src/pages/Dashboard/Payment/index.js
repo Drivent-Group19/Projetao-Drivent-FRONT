@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { SubContainer, Container, ContainerB, ContainerC, Icon, OptionBoxB, Button, PaymentPage, Title, Description, DescriptionB, OptionBox, OptionType, OpetionPrice, OpetionContainer, ConfirmButton, NonAvailablePage } from './style';
 import useGetEnrollment from '../../../hooks/api/useGetEnrollment';
 import { ticketTypeApi } from '../../../services/ticketTypeApi';
 import useToken from '../../../hooks/useToken';
@@ -94,7 +93,7 @@ export default function Payment() {
         <Container show={show}>
           <Description includesHotel={true}>Primeiro, escolha sua modalidade de ingresso</Description>
 
-          <OpetionContainer includesHotel={true}>
+          <OptionContainer includesHotel={true}>
             {ticketsType.map(({ id, name, includesHotel, isRemote, price }) => {
               return (
                 <Option key={id}
@@ -108,22 +107,22 @@ export default function Payment() {
                 ></Option>
               );
             })}
-          </OpetionContainer>
+          </OptionContainer>
 
           <Description includesHotel={typeSelected.includesHotel} >Ótimo! Agora escolha sua modalidade de Hospedagem</Description>
-          <OpetionContainer includesHotel={typeSelected.includesHotel} >
-            <OptionBox selectedBackground={hotelSelected.name === 'Sem hotel'}
+          <OptionContainer includesHotel={typeSelected.includesHotel} >
+            <SelectOption selectedBackground={hotelSelected.name === 'Sem hotel'}
               onClick={() => setHotelSelected({ name: 'Sem hotel', price: '0' })}>
               <OptionType>Sem hotel</OptionType>
               <OpetionPrice>+ R$ 0</OpetionPrice>
-            </OptionBox>
+            </SelectOption>
 
-            <OptionBox selectedBackground={hotelSelected.name === 'Com hotel'}
+            <SelectOption selectedBackground={hotelSelected.name === 'Com hotel'}
               onClick={() => setHotelSelected({ name: 'Com hotel', price: '250' })}>
               <OptionType>Com Hotel</OptionType>
               <OpetionPrice>+ R$ 250</OpetionPrice>
-            </OptionBox>
-          </OpetionContainer>
+            </SelectOption>
+          </OptionContainer>
           <Description includesHotel={hotelSelected.name !== '' || typeSelected.isRemote} >Fechado! O total ficou em <strong>R$ {calculateFinalPrice()}</strong>. Agora é só confirmar!</Description>
           <ConfirmButton includesHotel={hotelSelected.name !== '' || typeSelected.isRemote}
             onClick={() => {
@@ -134,13 +133,13 @@ export default function Payment() {
                 .catch((err) => console.log(err));
             }}>RESERVAR INGRESSO</ConfirmButton>
         </Container>
-        <DescriptionB show={show}>Ingresso escolhido</DescriptionB>
+        <FinalDescription show={show}>Ingresso escolhido</FinalDescription>
         <OptionBoxB show={show}>
           <OptionType>{typeSelected.name} + {hotelSelected.name}</OptionType>
           <OpetionPrice>R$ {Number(typeSelected.price) + Number(hotelSelected.price)}</OpetionPrice>
         </OptionBoxB>
-        <DescriptionB show={show}>Pagamento</DescriptionB>
-        <ContainerB show={show}>
+        <FinalDescription show={show}>Pagamento</FinalDescription>
+        <CardContainer show={show}>
           <img src={card} alt="Cartão" />
           <SubContainer>
             <FormWrapper>
@@ -188,7 +187,7 @@ export default function Payment() {
               </InputWrapper>
             </FormWrapper>
           </SubContainer>
-        </ContainerB>
+        </CardContainer>
         <Button show={show} onClick={() => {
           const body = {
             ticketId: typeSelected.id,
@@ -218,7 +217,7 @@ export default function Payment() {
           </div>
         </ContainerC>
       </PaymentPage>
-      <NonAvailablePage isAllowed={savedEnrollment}>Você precisa completar sua inscrição antes de prosseguir para a escolha de ingresso</NonAvailablePage>
+      <NotAvailablePage isAllowed={savedEnrollment}>Você precisa completar sua inscrição antes de prosseguir para a escolha de ingresso</NotAvailablePage>
       {reserved !== 'reserved' ? <>
         <Label>Escolha de atividades</Label>
         <Category>Primeiro, escolha sua modalidade de ingresso</Category>
@@ -350,4 +349,219 @@ const Ticket = styled.button`
     border-radius: 20px;
     background: #FFEED2;
     border: none;
+`;
+const Container = styled.div`
+  display: ${(props) => (props.show === 'ingresso' ? 'initial' : 'none')};
+`;
+
+const CardContainer = styled.div`
+  display: ${(props) => (props.show === 'ingresso escolhido' ? 'initial' : 'none')};
+  img {
+    width: 300px;
+    height: 200px;
+  }
+  position: relative;
+`;
+
+const ContainerC = styled.div`
+  display: ${(props) => (props.show === 'confirmação' ? 'flex' : 'none')};
+  margin-top: 15px;
+  div {
+    padding-top: 8px;
+  }
+  h2 {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+  h3 {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+`;
+
+const Icon = styled(AiFillCheckCircle)`
+  width: 44px;
+  height: 44px;
+  color: #6bba54;
+  margin-right: 10px;
+`;
+
+const SubContainer = styled.div`
+  width: 500px;
+  height: 200px;
+  position: absolute;
+  top: 10%;
+  left: 40%;
+`;
+
+const PaymentPage = styled.div`
+  padding: 15px;
+  width: 100%;
+  height: 100%;
+  display: ${(props) => (props.isAllowed ? '' : 'none')};
+`;
+
+const Title = styled.h1`
+  width: 438px;
+  height: 40px;
+  font-family: Roboto;
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 40px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #000000;
+`;
+
+const Description = styled.p`
+  width: 600px;
+  height: 23px;
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 23px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #8e8e8e;
+  margin-top: 30px;
+  display: ${(props) => (props.includesHotel ? 'initial' : 'none')};
+`;
+
+const FinalDescription = styled.p`
+  width: 600px;
+  height: 23px;
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 23px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #8e8e8e;
+  margin-top: 30px;
+  display: ${(props) =>
+    props.show === 'ingresso escolhido' || props.show === 'confirmação'
+      ? 'initial'
+      : 'none'};
+`;
+
+const SelectOption = styled.div`
+  width: 145px;
+  height: 145px;
+  border-radius: 20px;
+  border: 1px solid #cecece;
+  margin-top: 15px;
+  margin-right: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: ${(props) =>
+    props.selectedBackground ? '#ffe ed2' : 'white'};
+`;
+
+const OptionBoxB = styled.div`
+  width: 290px;
+  height: 108px;
+  border-radius: 20px;
+  border: 1px solid #cecece;
+  margin-top: 15px;
+  margin-right: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffe ed2;
+  display: ${(props) =>
+    props.show === 'ingresso escolhido' || props.show === 'confirmação'
+      ? 'initial'
+      : 'none'};
+`;
+
+const OptionType = styled.p`
+  width: 200px;
+  height: 19px;
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+  letter-spacing: 0em;
+  text-align: center;
+`;
+
+const OpetionPrice = styled.p`
+  width: 94px;
+  height: 16px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #898989;
+  margin-top: 8px;
+`;
+
+const OptionContainer = styled.div`
+  width: auto;
+  height: auto;
+  display: flex;
+  display: ${(props) => (props.includesHotel ? 'initial' : 'none')};
+`;
+
+const ConfirmButton = styled.button`
+  width: 182px;
+  height: 37px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #000000;
+  margin-top: 12px;
+  display: ${(props) => (props.includesHotel ? 'initial' : 'none')};
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+`;
+
+const Button = styled.button`
+  width: 182px;
+  height: 37px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #000000;
+  margin-top: 12px;
+  display: ${(props) =>
+    props.show === 'ingresso escolhido' ? 'initial' : 'none'};
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+`;
+
+const NotAvailablePage = styled.div`
+  width: 100%;
+  height: 100%;
+  display: ${(props) => (!props.isAllowed ? 'flex' : 'none')};
+  justify-content: center;
+  align-items: center;
+
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 23px;
+  letter-spacing: 0em;
+  text-align: center;
 `;
