@@ -26,8 +26,8 @@ export default function EventDay() {
 };
 
 const Dates = styled.h1`
-    family-font: Roboto;
-    weight: 400;
+    /* family-font: Roboto; */
+    font-weight: 400;
     font-size: 20px;
     line-height: 23.44px;
     color: #8E8E8E;
@@ -40,10 +40,10 @@ const AllDates = styled.div`
 `;
 
 const Date = styled.button`
-    family-font: Roboto;
-    weight: 400;
+    /* family-font: Roboto; */
+    font-weight: 400;
     font-size: 14px;
-    font-color: #000000;
+    color: #000000;
     text-align: center;
     justify-content: center;
     line-height: 16.41px;

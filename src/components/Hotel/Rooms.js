@@ -2,10 +2,8 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import useRoomsByHotelId from '../../hooks/api/useRoomsByHotelId';
 import SpecificRoom from './SpecificRoom';
-import FinalCard from './FinalCard';
 
 export default function Room({ hotel }) {
-  console.log(hotel);
   const { roomsByHotelId } = useRoomsByHotelId(hotel.id);
   const [rooms, setRooms] = useState([]);
 
@@ -16,7 +14,6 @@ export default function Room({ hotel }) {
   }, [roomsByHotelId]);
 
   const [room, setRoom] =useState({});
-  console.log(room.id);
 
   function Select2(info) {
     setRoom(info);

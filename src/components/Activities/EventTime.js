@@ -123,7 +123,7 @@ const Activity = styled.div`
     width: 75%;
     margin: 1%;
     background: #F1F1F1;
-    weight:400;
+    font-weight: 400;
     font-size: 12px;
     line-height: 14.06px;
 `;
