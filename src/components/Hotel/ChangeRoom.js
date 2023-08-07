@@ -18,7 +18,6 @@ export default function ChangeRoom({ hotel }, { bookingId } ) {
   }, [roomsByHotelId]);
 
   const [room, setRoom] =useState({});
-  console.log(room.id);
 
   function Select2(info) {
     setRoom(info);

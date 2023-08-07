@@ -20,7 +20,7 @@ export default function FinalCard({ booking }) {
     <><Container>
       <Image src={hotel?.image} alt="imagem" />
       <Name>{hotel?.name}</Name>
-      <Details>Tipo de Acomodação: <div>Single, Double e Triple</div>
+      <Details>Tipo de Acomodação: <div>{booking.Room.capacity === 1 ? 'Single' : booking.Room.capacity === 2 ?  'Double' : 'Triple'}</div>
       </Details>
       <Details>Pessoas no seu quarto: <div></div>
       </Details>
