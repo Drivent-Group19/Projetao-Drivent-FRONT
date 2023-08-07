@@ -4,10 +4,6 @@ import styled from 'styled-components';
 import useHotel from '../../../hooks/api/useHotel';
 import Card from '../../../components/Hotel/Card';
 import Room from '../../../components/Hotel/Rooms';
-
-import styled from 'styled-components';
-import Typography from '@material-ui/core/Typography';
-import { useState } from 'react';
 import useToken from '../../../hooks/useToken';
 import api from '../../../services/api';
 
@@ -16,6 +12,10 @@ export default function Hotel() {
   const { hotels } = useHotel();
   const [selectedHotelId, setSelectedHotelId] = useState(0);
   const [selectedHotel, setSelectedHotel]= useState({});
+  const [buttons, setButtons]= useState('');
+
+  const [isNotPaid, setIsNotPaid] = useState(false);
+  const [isNotIncludeHotel, setIsNotIncludeHotel] = useState(false);
 
   useEffect( () => {
     if(hotels) {
@@ -23,23 +23,11 @@ export default function Hotel() {
     }
   }, [hotels, selectedHotelId]);
 
-  const [buttons, setButtons]= useState('');
-
   function Select(info) {
     setButtons(info.name);
     setSelectedHotelId(info.id);
     setSelectedHotel(info);
   }
-
-  return (<div>
-    <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-    <ChooseHotel>Primeiro escolha seu hotel!</ChooseHotel>
-    <CardContainer>{hoteis[0] ? hoteis.map((i) => <Button onClick={() => Select(i)} name={i.name} disabled={i.name === buttons ? true : false}><Card hotelInfo={i} selected={i.name === buttons ? true: false}/></Button>) : ''}</CardContainer>
-    <BedroomsContainer>{ selectedHotelId !== 0 ? <Room hotel={selectedHotel}/> : '' }</BedroomsContainer>
-
-  </div>);
-  const [isNotPaid, setIsNotPaid] = useState(false);
-  const [isNotIncludeHotel, setIsNotIncludeHotel] = useState(true);
 
   //buscar informações sobre pagamento
 
@@ -66,7 +54,7 @@ export default function Hotel() {
       setIsNotIncludeHotel(false);
     }
     // se não houver hotel
-    if(res.includesHotel === false) {
+    if (res.includesHotel === false) {
       setIsNotPaid(false);
       setIsNotIncludeHotel(true);
     }
@@ -79,11 +67,24 @@ export default function Hotel() {
       {isNotPaid ? (
         <MessageContainer>Seu pagamento não foi confirmado.
           <p>Efetue o pagamento para reservar um hotel.</p></MessageContainer>
-      ) : (isNotIncludeHotel ?
+      ) : (isNotIncludeHotel ? (
         <MessageContainer>Sua modalidade de ingresso não inclui hospedagem. Prossiga para a escolha de atividades.</MessageContainer>
-        : 
-        'Mostrar hoteis'
-      )}
+      ) : ( 
+        <>
+          <ChooseHotel>Primeiro escolha seu hotel!</ChooseHotel>
+          <CardContainer>
+            {hoteis[0] ? (
+              hoteis.map((i) => 
+                <Button onClick={() => Select(i)} name={i.name} disabled={i.name === buttons ? true : false}>
+                  <Card hotelInfo={i} selected={i.name === buttons ? true: false}/>
+                </Button>)
+            ) : ''}
+          </CardContainer>
+          <BedroomsContainer>
+            { selectedHotelId !== 0 ? <Room hotel={selectedHotel}/> : '' }
+          </BedroomsContainer>
+        </>
+      ))}
     </>
   );
 }
@@ -118,7 +119,6 @@ margin-top: 40px;
 margin-left:40px;
 `;
 
-
 const MessageContainer = styled.div`
   font-size: 20px;
   line-height: 23.44px;
@@ -129,8 +129,4 @@ const MessageContainer = styled.div`
   position: absolute; 
   top: 40%;
   left: 30%;
-`;
-
-const StyledTypography = styled(Typography)`
-  margin-bottom: 20px!important;
 `;
