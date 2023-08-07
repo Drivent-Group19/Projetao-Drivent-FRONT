@@ -19,7 +19,7 @@ export default function Hotel() {
   useEffect( () => {
     //buscar informações sobre pagamento
     //se não estiver pago 
-    /*  if (ticket.status === 'RESERVED') {
+    if (ticket.status === 'RESERVED') {
       setIsNotPaid(true);
       setIsNotIncludeHotel(false);
     }
@@ -27,14 +27,14 @@ export default function Hotel() {
     else if (ticket.includesHotel === false) {
       setIsNotPaid(false);
       setIsNotIncludeHotel(true); 
-    }*/
-    /* else  */ if(hotels) {
-      /* setIsNotPaid(false); */
-      /* setIsNotIncludeHotel(false); */
+    }
+    else if(hotels) {
+      setIsNotPaid(false);
+      setIsNotIncludeHotel(false); 
       setHoteis(hotels);
       console.log(hotels);
     }
-  }, [/* ticket, */ hotels, selectedHotelId]);
+  }, [ ticket,  hotels, selectedHotelId]);
 
   function Select(info) {
     setButtons(info.name);
