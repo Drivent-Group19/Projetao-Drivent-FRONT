@@ -7,7 +7,7 @@ export default function useTicket() {
 
   const {
     data: ticket,
-    loging: ticketLoading,
+    loading: ticketLoading,
     error: ticketError,
     act: getTicket,
   } = useAsync(() => ticketApi.getTickets(token));

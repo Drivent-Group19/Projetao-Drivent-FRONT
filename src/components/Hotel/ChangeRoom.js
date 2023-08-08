@@ -2,10 +2,11 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import useRoomsByHotelId from '../../hooks/api/useRoomsByHotelId';
 import SpecificRoom from './SpecificRoom';
-import { makeBooking } from '../../services/hotelApi';
+import { updateBooking } from '../../services/hotelApi';
 import useToken from '../../hooks/useToken';
 
-export default function Room({ hotel }) {
+export default function ChangeRoom({ hotel, bookingId } ) {
+  console.log(bookingId);
   const token = useToken();
   const { roomsByHotelId } = useRoomsByHotelId(hotel.id);
   const [rooms, setRooms] = useState([]);
@@ -17,21 +18,20 @@ export default function Room({ hotel }) {
   }, [roomsByHotelId]);
 
   const [room, setRoom] =useState({});
-  console.log(room.id);
 
   function Select2(info) {
     setRoom(info);
   }
 
   function Reserva() {
-    console.log(token);
-    makeBooking(token, room.id);
+    console.log(bookingId);
+    updateBooking(token, room.id, bookingId);
   }
   
   return (
     <div>
       <RoomsContainer>{rooms?.map((j) => <Button2 onClick={() => Select2(j)} disabled={room.id === j.id ? true : false} color={j.id === room ? true : false} ><SpecificRoom roomInfo={j}/></Button2>)}</RoomsContainer>
-      <ReserveContainer> {room.id !== undefined ? <Reserve onClick={Reserva}>RESERVAR QUARTO</Reserve> : ''}</ReserveContainer>
+      <ReserveContainer> {room.id !== undefined  && bookingId !== undefined ? <Reserve onClick={Reserva}>RESERVAR QUARTO</Reserve> : ''}</ReserveContainer>
     </div>
 
   );
