@@ -6,21 +6,27 @@ import Card from '../../../components/Hotel/Card';
 import Room from '../../../components/Hotel/Rooms';
 import FinalCard from '../../../components/Hotel/FinalCard';
 import useGetBookingByUser from '../../../hooks/api/useGetBookingByUser';
+import useTicket from '../../../hooks/api/useTicket';
 
 export default function Hotel() {
   const [hoteis, setHoteis] = useState([]);
+  const { ticket } = useTicket();
   const { hotels } = useHotel();
   const { userBooking }  = useGetBookingByUser();
+  const [ingresso, setIngresso] = useState({});
   const [selectedHotelId, setSelectedHotelId] = useState(0);
   const [selectedHotel, setSelectedHotel]= useState({});
   const [book, setBook]= useState({});
 
   useEffect( () => {
-    if(hotels) {
+    if(ticket) {
       setHoteis(hotels);
       setBook(userBooking);
+      setIngresso(ticket);
+      console.log(ticket)
+      ;
     }
-  }, [hotels]);
+  }, [ticket]);
 
   const [buttons, setButtons]= useState('');
 
@@ -30,12 +36,19 @@ export default function Hotel() {
     setSelectedHotel(info);
   }
 
+  console.log(ticket);
+ 
   return (<div>
     <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-    {userBooking ? <FinalCard booking={userBooking} /> : 
-      <><ChooseHotel>Primeiro escolha seu hotel!</ChooseHotel>
-        <CardContainer>{hoteis[0] ? hoteis.map((i) => <Button onClick={() => Select(i)} name={i.name} disabled={i.name === buttons ? true : false}><Card hotelInfo={i} selected={i.name === buttons ? true : false} /></Button>) : ''}</CardContainer>
-        <BedroomsContainer>{selectedHotelId !== 0 ? <Room hotel={selectedHotel} /> : ''}</BedroomsContainer></>}
+    {ingresso.status === 'RESERVED' || !ingresso.id ? 
+      <MessageContainer>Seu pagamento não foi confirmado.
+        <p>Efetue o pagamento para reservar um hotel.</p></MessageContainer>
+      : ticket?.TicketType?.includesHotel ?
+        ( userBooking ? <FinalCard booking={userBooking}/> :  <><ChooseHotel>Primeiro escolha seu hotel!</ChooseHotel>
+          <CardContainer>{hoteis[0] ? hoteis.map((i) => <Button onClick={() => Select(i)} name={i.name} disabled={i.name === buttons ? true : false}><Card hotelInfo={i} selected={i.name === buttons ? true : false} /></Button>) : ''}</CardContainer>
+          <BedroomsContainer>{selectedHotelId !== 0 ? <Room hotel={selectedHotel} /> : ''}</BedroomsContainer></>)
+        : <MessageContainer>Sua modalidade de ingresso não inclui hospedagem. 
+          <p>Prossiga para a escolha de atividades.</p></MessageContainer> }
 
   </div>);
 }
@@ -68,5 +81,17 @@ const BedroomsContainer = styled.div `
 width: 800px;
 margin-top: 40px;
 margin-left:40px;
+`;
+
+const MessageContainer = styled.div`
+  size: 20px;
+  line-height: 23.44px;
+  text-align: center;
+  color: #8E8E8E;
+  width: 411px;
+  height: 46px;
+  position: absolute; 
+  top: 40%;
+  left: 30%;
 `;
 
