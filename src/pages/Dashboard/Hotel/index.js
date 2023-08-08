@@ -82,7 +82,6 @@ width: 800px;
 margin-top: 40px;
 margin-left:40px;
 `;
-
 const MessageContainer = styled.div`
   size: 20px;
   line-height: 23.44px;
