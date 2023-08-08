@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import useTicket from '../../../hooks/api/useTicket';
 import { Typography } from '@material-ui/core';
+import ActivitiesBlock from '../../../components/Activities';
 
 export default function Activities() {
   const { ticket } = useTicket();
@@ -22,7 +23,7 @@ export default function Activities() {
       </>
     );
   }
-  return;
+  return <ActivitiesBlock />;
 }
 
 const StyledTypography = styled(Typography)`
