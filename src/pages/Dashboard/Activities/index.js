@@ -3,15 +3,6 @@ import useTicket from '../../../hooks/api/useTicket';
 import { Typography } from '@material-ui/core';
 
 export default function Activities() {
-  //Área liberada somente após usuário terminar a inscrição, pagar e escolher o hotel (se for o caso)
-  //Não sendo o caso, a tela “Atividades - Não Disponível” aparece.
-
-  //Se o ingresso não inclui hospedagem, o usuário já tem acesso a todas as atividades,
-  //como demonstrado na tela “Atividades - Tudo Incluído”.
-
-  // const [isNotAvailable, setIsNotAvailable] = useState(false);
-  // const [isAllInclusive, setIsAllInclusive] = useState(false);
-
   const { ticket } = useTicket();
 
   if (ticket?.status !== 'PAID') {
@@ -22,6 +13,16 @@ export default function Activities() {
       </>
     );
   }
+
+  if (ticket?.ticketType.includesHotel === false) {
+    return (
+      <>
+        <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
+        <Paragraph>Sua modalidade de ingresso não inclui hospedagem. Prossiga para a escolha de atividades</Paragraph>
+      </>
+    );
+  }
+  return;
 }
 
 const StyledTypography = styled(Typography)`
