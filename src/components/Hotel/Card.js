@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import useRoomsByHotelId from '../../hooks/api/useRoomsByHotelId';
 
-export default function Card({ hotelInfo }, { selected }) {
+export default function Card({ hotelInfo, selected }) {
   let available=0;
   if(hotelInfo.id) {
     const { roomsByHotelId } = useRoomsByHotelId(hotelInfo.id);
