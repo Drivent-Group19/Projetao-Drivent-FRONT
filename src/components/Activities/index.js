@@ -2,7 +2,6 @@ import EventDay from './EventDay';
 import EventTime from './EventTime';
 import { useState } from 'react';
 import useActivities from '../../hooks/api/useActivities';
-import { Label } from '../../components/Auth';
 import { Typography } from '@material-ui/core';
 import styled from 'styled-components';
 
