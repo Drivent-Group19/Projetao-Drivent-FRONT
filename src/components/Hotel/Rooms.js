@@ -30,7 +30,7 @@ export default function Room({ hotel }) {
   
   return (
     <div>
-      <RoomsContainer>{rooms?.map((j) => <Button2 onClick={() => Select2(j)} disabled={room.id === j.id ? true : false} color={j.id === room ? true : false} ><SpecificRoom roomInfo={j}/></Button2>)}</RoomsContainer>
+      <RoomsContainer>{rooms?.map((j) => <Button2 onClick={() => Select2(j)} disabled={room.id === j.id ? true : false} color={j.id === room ? true : false} ><SpecificRoom roomInfo={j} disabled={room.id === j.id ? true : false} cor={j.id === room ? true : false} /></Button2>)}</RoomsContainer>
       <ReserveContainer> {room.id !== undefined ? <Reserve onClick={Reserva}>RESERVAR QUARTO</Reserve> : ''}</ReserveContainer>
     </div>
 
