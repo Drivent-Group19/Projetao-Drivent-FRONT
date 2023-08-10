@@ -4,70 +4,50 @@ import styled from 'styled-components';
 import useHotel from '../../../hooks/api/useHotel';
 import Card from '../../../components/Hotel/Card';
 import Room from '../../../components/Hotel/Rooms';
+import FinalCard from '../../../components/Hotel/FinalCard';
+import useGetBookingByUser from '../../../hooks/api/useGetBookingByUser';
 import useTicket from '../../../hooks/api/useTicket';
 
 export default function Hotel() {
   const [hoteis, setHoteis] = useState([]);
-  const { hotels } = useHotel();
   const { ticket } = useTicket();
+  const { hotels } = useHotel();
+  const { userBooking }  = useGetBookingByUser();
+  const [ingresso, setIngresso] = useState({});
   const [selectedHotelId, setSelectedHotelId] = useState(0);
   const [selectedHotel, setSelectedHotel]= useState({});
-  const [buttons, setButtons]= useState('');
-  const [isNotPaid, setIsNotPaid] = useState(false);
-  const [isNotIncludeHotel, setIsNotIncludeHotel] = useState(false);
+  const [book, setBook]= useState({});
 
   useEffect( () => {
-    //buscar informações sobre pagamento
-    //se não estiver pago 
-    if (ticket.status === 'RESERVED') {
-      setIsNotPaid(true);
-      setIsNotIncludeHotel(false);
-    }
-    // se não houver hotel
-    else if (ticket.includesHotel === false) {
-      setIsNotPaid(false);
-      setIsNotIncludeHotel(true); 
-    }
-    else if(hotels) {
-      setIsNotPaid(false);
-      setIsNotIncludeHotel(false); 
+    if(ticket) {
       setHoteis(hotels);
-      console.log(hotels);
+      setBook(userBooking);
+      setIngresso(ticket);
+      console.log(ticket)
+      ;
     }
-  }, [ ticket,  hotels, selectedHotelId]);
+  }, [ticket]);
 
   function Select(info) {
     setButtons(info.name);
     setSelectedHotelId(info.id);
     setSelectedHotel(info);
   }
+  console.log(ticket);
+ 
+  return (<div>
+    <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
+    {ingresso.status === 'RESERVED' || !ingresso.id ? 
+      <MessageContainer>Seu pagamento não foi confirmado.
+        <p>Efetue o pagamento para reservar um hotel.</p></MessageContainer>
+      : ticket?.TicketType?.includesHotel ?
+        ( userBooking ? <FinalCard booking={userBooking}/> :  <><ChooseHotel>Primeiro escolha seu hotel!</ChooseHotel>
+          <CardContainer>{hoteis[0] ? hoteis.map((i) => <Button onClick={() => Select(i)} name={i.name} disabled={i.name === buttons ? true : false}><Card hotelInfo={i} selected={i.name === buttons ? true : false} /></Button>) : ''}</CardContainer>
+          <BedroomsContainer>{selectedHotelId !== 0 ? <Room hotel={selectedHotel} /> : ''}</BedroomsContainer></>)
+        : <MessageContainer>Sua modalidade de ingresso não inclui hospedagem. 
+          <p>Prossiga para a escolha de atividades.</p></MessageContainer> }
 
-  return (
-    <>
-      <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-      {isNotPaid ? (
-        <MessageContainer>Seu pagamento não foi confirmado.
-          <p>Efetue o pagamento para reservar um hotel.</p></MessageContainer>
-      ) : (isNotIncludeHotel ? (
-        <MessageContainer>Sua modalidade de ingresso não inclui hospedagem. Prossiga para a escolha de atividades.</MessageContainer>
-      ) : ( 
-        <>
-          <ChooseHotel>Primeiro escolha seu hotel!</ChooseHotel>
-          <CardContainer>
-            {hoteis[0] ? (
-              hoteis.map((i) => 
-                <Button onClick={() => Select(i)} name={i.name} disabled={i.name === buttons ? true : false}>
-                  <Card hotelInfo={i} selected={i.name === buttons ? true: false}/>
-                </Button>)
-            ) : ''}
-          </CardContainer>
-          <BedroomsContainer>
-            { selectedHotelId !== 0 ? <Room hotel={selectedHotel}/> : '' }
-          </BedroomsContainer>
-        </>
-      ))}
-    </>
-  );
+  </div>);
 }
 
 const StyledTypography = styled(Typography)`
@@ -99,6 +79,18 @@ width: 800px;
 margin-top: 40px;
 margin-left:40px;
 `;
+const MessageContainer = styled.div`
+  size: 20px;
+  line-height: 23.44px;
+  text-align: center;
+  color: #8E8E8E;
+  width: 411px;
+  height: 46px;
+  position: absolute; 
+  top: 40%;
+  left: 30%;
+`;
+
 
 const MessageContainer = styled.div`
   font-size: 20px;
