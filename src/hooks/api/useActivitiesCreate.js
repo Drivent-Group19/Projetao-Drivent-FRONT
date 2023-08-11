@@ -1,6 +1,6 @@
 import useAsync from '../useAsync';
 import useToken from '../useToken';
-import * as activitiesApi from '../../services/activities.js';
+import * as activitiesApi from '../../services/activitiesApi';
 
 export default function useCreateActivity() {
   const token = useToken();

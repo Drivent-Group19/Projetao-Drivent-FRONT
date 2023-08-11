@@ -15,11 +15,11 @@ export default function Activities() {
     );
   }
 
-  if (ticket?.ticketType.includesHotel === false) {
+  if (ticket?.TicketType.includesHotel === false) {
     return (
       <>
         <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
-        <Paragraph>Sua modalidade de ingresso não inclui hospedagem. Prossiga para a escolha de atividades</Paragraph>
+        <Paragraph>Sua modalidade de ingresso não necessita escolher atividade. Você terá acesso a todas as atividades.</Paragraph>
       </>
     );
   }

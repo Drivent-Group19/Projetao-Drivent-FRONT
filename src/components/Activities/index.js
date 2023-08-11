@@ -15,7 +15,7 @@ export default function ActivitiesBlock() {
 
   return (
     <>
-      <StyledTypography>Escolha de atividades</StyledTypography>
+      <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
       <EventDay setClickeDay={setClickeDay} activities={activities} />
       <EventTime getActivities={getActivities} activities={activities} clickeDay={clickeDay} />
     </>

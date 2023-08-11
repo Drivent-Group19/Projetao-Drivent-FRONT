@@ -27,23 +27,14 @@ export default function EventDay({ setClickeDay, activities }) {
     <>
       <Dates>Primeiro, filtre pelo dia do evento:</Dates>
       <AllDates>
-        {dateUnique.map((d) => {
-          const isClicked = clicked === d;
+        {dateUnique.map((date) => {
+          const isClicked = clicked === date;
           return (
-            <Date key={d} onClick={() => clickeDate(d)} selected={isClicked}>
-              {d}
+            <Date key={date} onClick={() => clickeDate(date)} selected={isClicked}>
+              {date}
             </Date>
           );
         })}
-        {/* <Date isClicked={'Sexta, 22/10' === clicked} onClick={(e) => isActive(e)}>
-          Sexta, 22/10
-        </Date>
-        <Date isClicked={'Sábado, 23/10' === clicked} onClick={(e) => isActive(e)}>
-          Sábado, 23/10
-        </Date>
-        <Date isClicked={'Domingo, 24/10' === clicked} onClick={(e) => isActive(e)}>
-          Domingo, 24/10
-        </Date> */}
       </AllDates>
     </>
   );
@@ -70,7 +61,6 @@ const Date = styled.button`
   color: #000000;
   text-align: center;
   justify-content: center;
-  line-height: 16.41px;
   background-color: ${(props) => (props.selected ? '#FFD37D' : '#E0E0E0')};
   width: 131px;
   height: 37px;
