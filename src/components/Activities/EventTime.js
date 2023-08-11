@@ -6,7 +6,7 @@ import useUserData from '../../hooks/useData';
 import { toast } from 'react-toastify';
 import { format } from 'date-fns';
 
-export default function EventTime(getActivities, activities, clickeDay) {
+export default function EventTime({ getActivities, activities, clickeDay }) {
   const { createActivity } = useCreateActivity();
   const userId = useUserData();
 
