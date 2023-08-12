@@ -28,11 +28,11 @@ export default function SpecificRoom({ roomInfo, disabled, cor }) {
   }
 
   return (
-    <Container unavailable={tam === notAvailable}>
+    <Container unavailable={tam === notAvailable} disabled={disabled} cor={cor}>
       <Div>{roomInfo.id}</Div>
       <Div>{tam === notAvailable ? quantidade?.map((i) => <ion-icon name="person"></ion-icon>) 
-        : dif === tam ? quantidade?.map((i) => <ion-icon name="person-outline" color={disabled ? 'lightyellow': cor ? 'lightyellow' : 'white' }></ion-icon>) :
-          <Container2><div>{reservado?.map((i) => <><ion-icon name="person" color="pink"></ion-icon></>)}</div><div>{ difArray?.map((i) => <ion-icon name="person-outline" color={disabled ? 'lightyellow': cor ? 'lightyellow' : 'white' }></ion-icon>)}</div></Container2>}</Div>
+        : dif === tam ? quantidade?.map((i) => <ion-icon name="person-outline" style={ { color: disabled && i === quantidade[0] ? 'pink': (cor && i === quantidade[0]) ? 'pink' : 'black' }}></ion-icon>) :
+          <Container2><div>{reservado?.map((i) => <><ion-icon name="person" color="pink"></ion-icon></>)}</div><div>{ difArray?.map((i) => <ion-icon name="person-outline" style={{ color: disabled ? 'pink': cor ? 'pink' : 'black' }}></ion-icon>)}</div></Container2>}</Div>
     </Container>
   );
 };
@@ -43,7 +43,7 @@ height: 30px;
 display:flex;
 flex-direction:row;
 justify-content: space-between;
-background-color:${props => props.unavailable? 'gray' : 'white'}
+background-color:${props => props.unavailable? 'gray' : props.disabled ? 'lightyellow': props.cor ? 'lightyellow' : 'white'}
 `;
 
 const Div = styled.div `
