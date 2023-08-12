@@ -46,6 +46,7 @@ export default function EventTime({ getActivities, activities, clickeDay }) {
               const endsAt = new Date(a.endsAt);
               const startsAt = new Date(a.startsAt);
               const capacity = a.capacity;
+
               const hours = Math.abs(endsAt - startsAt) / 36e5;
               const booking = a.ActivityBooking.length;
               const positions = capacity - booking;
@@ -78,18 +79,18 @@ export default function EventTime({ getActivities, activities, clickeDay }) {
                     {!booked ? (
                       positions ? (
                         <Activity isAvailable={positions} onClick={() => aplication(a.id)}>
-                          <BiLogInIcon />
+                          <BiLogIn size={20} color="green" />
                           <p>{positions} vagas</p>
                         </Activity>
                       ) : (
                         <Activity isAvailable={positions}>
-                          <BiXCircleIcon />
+                          <BiXCircle size={20} color="#CC6666" />
                           <p>Esgotado</p>
                         </Activity>
                       )
                     ) : (
                       <Activity isAvailable={positions}>
-                        <AiOutlineCheckCircleIcon />
+                        <AiOutlineCheckCircle size={20} color="green" />
                         <p>Inscrito</p>
                       </Activity>
                     )}
@@ -106,11 +107,10 @@ export default function EventTime({ getActivities, activities, clickeDay }) {
 
 const ActivitiesContainer = styled.div`
   display: flex;
-  margin-top: 60px;
 `;
 
 const Auditorio = styled.div`
-  width: 280px;
+  width: 100%;
   height: auto;
   min-height: 424px;
   align-items: center;
@@ -119,8 +119,13 @@ const Auditorio = styled.div`
 
 const Locals = styled.div`
   display: flex;
+  color: #7b7b7b;
+  font-family: 'Roboto';
+  font-weight: 400;
+  font-size: 17px;
   margin-top: 50px;
-  padding: 2% 8%;
+  padding: 3% 30%;
+  text-align: center;
   justify-content: space-between;
   p {
     color: #7b7b7b;
@@ -129,22 +134,20 @@ const Locals = styled.div`
 
 const Activities = styled.div`
   display: flex;
-  width: 280px;
-  height: auto;
+  height: 350px;
   border: 2px solid #d7d7d7;
-  padding: 10px;
 `;
 
 const Text = styled.div`
   h3 {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto';
     font-size: 12px;
     font-weight: 400;
     line-height: 14px;
   }
   h2 {
     color: #343434;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto';
     font-size: 12px;
     font-weight: 700;
     line-height: 14px;
@@ -156,17 +159,16 @@ const Text = styled.div`
 
 const Line = styled.div`
   width: 1px;
-  background-color: #fcfcfc;
+  background-color: #cfcfcf;
   height: ${(props) => props.ActivityHour * 60}px;
 `;
 
 const Box = styled.div`
   display: flex;
-  width: 260px;
+  width: 90%;
   height: ${(props) => props.ActivityHour * 80}px;
   margin: 5%;
-  padding: 3%;
-  background-color: ${(props) => (props.booked ? '#F1F1F1' : '#D0FFDB')};
+  background-color: ${(props) => (props.booked ? '#D0FFDB' : '#F1F1F1')};
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 10px;
@@ -188,19 +190,4 @@ const Activity = styled.div`
     color: ${(props) => (props.isAvailable ? '#078632' : '#CC6666')};
     line-height: 11px;
   }
-`;
-
-const BiLogInIcon = styled(BiLogIn)`
-  font-size: 20px;
-  color: #078632;
-`;
-
-const BiXCircleIcon = styled(BiXCircle)`
-  font-size: 20px;
-  color: #cc6666;
-`;
-
-const AiOutlineCheckCircleIcon = styled(AiOutlineCheckCircle)`
-  font-size: 20px;
-  color: #078632;
 `;
