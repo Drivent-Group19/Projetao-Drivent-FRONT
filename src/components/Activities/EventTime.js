@@ -10,9 +10,7 @@ export default function EventTime({ getActivities, activities, clickeDay }) {
   const { createActivity } = useCreateActivity();
   const userId = useUserData();
 
-  if (!activities || !clickeDay) {
-    return <></>;
-  }
+  if (!activities || !clickeDay) return <></>;
 
   const auditorioActivity = activities.reduce((acc, activity) => {
     const auditorioId = activity.activityPlaceId;
@@ -59,7 +57,7 @@ export default function EventTime({ getActivities, activities, clickeDay }) {
               if (date !== dateStr) return null;
 
               return (
-                <Box key={a.id} ActivityHour={hours} booked={booked}>
+                <Box key={a.id} ActivityHour={hours} booked={!booked}>
                   <>
                     <Text>
                       <h2>{a.title}</h2>
@@ -166,9 +164,9 @@ const Line = styled.div`
 const Box = styled.div`
   display: flex;
   width: 90%;
-  height: ${(props) => props.ActivityHour * 80}px;
+  height: ${(props) => props.ActivityHour * 70}px;
   margin: 5%;
-  background-color: ${(props) => (props.booked ? '#D0FFDB' : '#F1F1F1')};
+  background-color: ${(props) => (props.booked ? '#F1F1F1' : '#D0FFDB')};
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 10px;
