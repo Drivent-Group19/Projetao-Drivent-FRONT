@@ -2,12 +2,15 @@
 import styled from 'styled-components';
 import ChangeRoom from './ChangeRoom';
 import useHotelById from '../../hooks/api/useHotelById';
+import useBookingByRoomId from '../../hooks/api/useBookingByRoomId';
+
 import { useState, useEffect } from 'react';
 
 export default function FinalCard({ booking }) {
   console.log(booking.id);
   const [hotelInfo, setInfo] = useState({});
   const { hotel } = useHotelById( booking.Room.hotelId);
+  const { bookings } = useBookingByRoomId(booking.Room.id);
   const [selected, setSelected]=useState(false);
   console.log(hotel);
 
@@ -16,13 +19,27 @@ export default function FinalCard({ booking }) {
     console.log(booking.id);
   }
 
+  let quantidade = [];
+  for (let i=0; i < booking.Room.capacity; i++) {
+    quantidade.push(i);
+  }
+  
+  let tam= quantidade.length;
+  let dif;
+  let notAvailable=0;
+
+  if(bookings) {
+    notAvailable= bookings.length;
+    dif = tam - notAvailable;
+  }
+
   return (
     <><Container>
       <Image src={hotel?.image} alt="imagem" />
       <Name>{hotel?.name}</Name>
       <Details>Tipo de Acomodação: <div>{booking.Room.capacity === 1 ? 'Single' : booking.Room.capacity === 2 ?  'Double' : 'Triple'}</div>
       </Details>
-      <Details>Pessoas no seu quarto: <div></div>
+      <Details>Pessoas no seu quarto: { notAvailable ===1 ? 'Somente você' : notAvailable === 2 ? 'Você e mais 1 pessoa' : 'Você e mais duas pessoas'} <div></div>
       </Details>
     </Container>
     <Reserve onClick={Change}>TROCAR QUARTO</Reserve>

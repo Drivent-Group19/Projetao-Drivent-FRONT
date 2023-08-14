@@ -8,3 +8,12 @@ export async function getActivities(token) {
   });
   return response.data;
 }
+
+export async function createActivity(token, activityId) {
+  const response = await api.post('/activities/booking', { activityId }, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+}

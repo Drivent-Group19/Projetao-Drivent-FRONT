@@ -1,3 +1,4 @@
+
 import Typography from '@material-ui/core/Typography';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
@@ -43,7 +44,7 @@ export default function Hotel() {
         <p>Efetue o pagamento para reservar um hotel.</p></MessageContainer>
       : ticket?.TicketType?.includesHotel ?
         ( userBooking ? <FinalCard booking={userBooking}/> :  <><ChooseHotel>Primeiro escolha seu hotel!</ChooseHotel>
-          <CardContainer>{hoteis[0] ? hoteis.map((i) => <Button onClick={() => Select(i)} name={i.name} disabled={i.name === buttons ? true : false}><Card hotelInfo={i} selected={i.name === buttons ? true : false} /></Button>) : ''}</CardContainer>
+          <CardContainer>{hotels ? hotels.map((i) => <Button onClick={() => Select(i)} name={i.name} disabled={i.name === buttons ? true : false}><Card hotelInfo={i} selected={i.name === buttons ? true : false} /></Button>) : ''}</CardContainer>
           <BedroomsContainer>{selectedHotelId !== 0 ? <Room hotel={selectedHotel} /> : ''}</BedroomsContainer></>)
         : <MessageContainer>Sua modalidade de ingresso não inclui hospedagem. 
           <p>Prossiga para a escolha de atividades.</p></MessageContainer> }
@@ -91,4 +92,3 @@ const MessageContainer = styled.div`
   top: 40%;
   left: 30%;
 `;
-

@@ -1,58 +1,75 @@
+import { format, parseISO } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-export default function EventDay() {
+export default function EventDay({ setClickeDay, activities }) {
   const [clicked, setClicked] = useState(null);
-  function isActive(e) {
-    console.log('entrou', e.target.innerText);
-    if(e.target.innerText === clicked) {
-      setClicked(null);
+
+  const clickeDate = (date) => {
+    setClickeDay(date);
+    setClicked(date);
+  };
+
+  if (!activities) return <></>;
+
+  const dateUnique = activities.reduce((uniqui, activity) => {
+    const startsDate = activity.startsAt.split('T')[0];
+    const parsedDate = parseISO(startsDate);
+    const formatDate = format(parsedDate, 'EEE, dd/MM', { locale: ptBR });
+    if (!uniqui.includes(formatDate)) {
+      uniqui.push(formatDate);
     }
-    else{
-      setClicked(e.target.innerText);
-    }
-  }
+    return uniqui;
+  }, []);
 
   return (
     <>
       <Dates>Primeiro, filtre pelo dia do evento:</Dates>
       <AllDates>
-        <Date isClicked={'Sexta, 22/10'===clicked} onClick={(e) => isActive(e)}>Sexta, 22/10</Date>
-        <Date isClicked={'Sábado, 23/10'===clicked} onClick={(e) => isActive(e)}>Sábado, 23/10</Date>
-        <Date isClicked={'Domingo, 24/10'===clicked} onClick={(e) => isActive(e)}>Domingo, 24/10</Date>
+        {dateUnique.map((date) => {
+          const isClicked = clicked === date;
+          return (
+            <Date key={date} onClick={() => clickeDate(date)} selected={isClicked}>
+              {date}
+            </Date>
+          );
+        })}
       </AllDates>
     </>
   );
-};
+}
 
 const Dates = styled.h1`
-    family-font: Roboto;
-    weight: 400;
-    font-size: 20px;
-    line-height: 23.44px;
-    color: #8E8E8E;
-    margin-bottom: 20px;
+  font-family: 'Roboto';
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 23.44px;
+  color: #8e8e8e;
+  margin-bottom: 20px;
 `;
 
 const AllDates = styled.div`
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 `;
 
 const Date = styled.button`
-    family-font: Roboto;
-    weight: 400;
-    font-size: 14px;
-    font-color: #000000;
-    text-align: center;
-    justify-content: center;
-    line-height: 16.41px;
-    /* background-color: #E0E0E0; */
-    background-color: ${props => (props.isClicked ? '#FFD37D' : '#E0E0E0')};
-    width: 131px;
-    height: 37px;
-    border-radius: 4px;
-    border:none;
-    box-shadow: 0px 2px 10px 0px #00000040;
-    margin-right: 15px;
+  font-family: 'Roboto';
+  font-weight: 400;
+  font-size: 14px;
+  color: #000000;
+  text-align: center;
+  justify-content: center;
+  background-color: ${(props) => (props.selected ? '#FFD37D' : '#E0E0E0')};
+  width: 131px;
+  height: 37px;
+  border-radius: 4px;
+  border: none;
+  box-shadow: 0px 2px 10px 0px #00000040;
+  margin-right: 15px;
+  cursor: pointer;
+  &:hover {
+    background-color: #FFD37D;
+  }
 `;
