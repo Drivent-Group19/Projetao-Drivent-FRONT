@@ -9,3 +9,11 @@ export async function getTickets(token) {
   return response.data;
 }
 
+export async function postTickets(body, token) {
+  const response = await api.post('/tickets', body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+}

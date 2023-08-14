@@ -16,6 +16,5 @@ export async function makePayment(body, token) {
       Authorization: `Bearer ${token}`,
     },
   });
-
   return response.data;
 }

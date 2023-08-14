@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import useBookingByRoomId from '../../hooks/api/useBookingByRoomId';
-import { useEffect, useState } from 'react';
 
 export default function SpecificRoom({ roomInfo, disabled, cor }) {
   const { bookings } = useBookingByRoomId(roomInfo.id);
