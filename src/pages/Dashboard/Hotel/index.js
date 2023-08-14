@@ -30,6 +30,8 @@ export default function Hotel() {
     }
   }, [ticket]);
 
+  const [buttons, setButtons]= useState('');
+
   function Select(info) {
     setButtons(info.name);
     setSelectedHotelId(info.id);
@@ -81,8 +83,9 @@ width: 800px;
 margin-top: 40px;
 margin-left:40px;
 `;
+
 const MessageContainer = styled.div`
-  size: 20px;
+  font-size: 20px;
   line-height: 23.44px;
   text-align: center;
   color: #8E8E8E;
