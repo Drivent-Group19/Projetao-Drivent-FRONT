@@ -2,13 +2,30 @@
 import styled from 'styled-components';
 import useRoomsByHotelId from '../../hooks/api/useRoomsByHotelId';
 
-export default function Card({ hotelInfo }, { selected }) {
+export default function Card({ hotelInfo, selected }) {
   let available=0;
+  let types=[];
+  let frase = '';
   if(hotelInfo.id) {
     const { roomsByHotelId } = useRoomsByHotelId(hotelInfo.id);
+    console.log(types);
 
     roomsByHotelId?.forEach( (room) => {
       available= available + room.capacity;
+      if(!types.includes(room.capacity)) {
+        types.push(room.capacity);
+        if(room.capacity === 1) {
+          frase= frase + 'Single, ';
+        }
+        if(room.capacity === 2) {
+          frase= frase + 'Double, ';
+        }
+        if(room.capacity === 1) {
+          frase= frase + 'Triple,';
+        }
+
+        console.log(frase);
+      }
     });
   }
 
@@ -16,7 +33,7 @@ export default function Card({ hotelInfo }, { selected }) {
     <Container selected={selected}>
       <Image src={hotelInfo.image} alt="imagem"/>
       <Name>{hotelInfo.name}</Name>
-      <Details>Tipo de Acomodação: <div>Single, Double e Triple</div>
+      <Details>Tipo de Acomodação: <div>{frase}</div>
       </Details>
       <Details>Vagas disponíveis: <div>{available}</div>
       </Details>
