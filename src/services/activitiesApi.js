@@ -9,8 +9,8 @@ export async function getActivities(token) {
   return response.data;
 }
 
-export async function createActivity(body, token) {
-  const response = await api.post('/activities/booking', body, {
+export async function createActivity(token, activityId) {
+  const response = await api.post('/activities/booking', { activityId }, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

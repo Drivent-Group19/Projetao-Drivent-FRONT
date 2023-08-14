@@ -1,14 +1,15 @@
 import styled from 'styled-components';
 import { BiLogIn, BiXCircle } from 'react-icons/bi';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
-import useCreateActivity from '../../hooks/api/useActivitiesCreate';
 import useUserData from '../../hooks/useData';
+import { createActivity } from '../../services/activitiesApi';
 import { toast } from 'react-toastify';
 import { format } from 'date-fns';
+import useToken from '../../hooks/useToken';
 
 export default function EventTime({ getActivities, activities, clickeDay }) {
-  const { createActivity } = useCreateActivity();
   const userId = useUserData();
+  const token = useToken();
 
   if (!activities || !clickeDay) return <></>;
 
@@ -23,10 +24,9 @@ export default function EventTime({ getActivities, activities, clickeDay }) {
   }, {});
 
   async function aplication(id) {
-    const data = { activityId: id };
-
+    console.log(token);
     try {
-      await createActivity(data);
+      await createActivity(token, id);
       await getActivities();
       toast('Activity registered successfully.');
     } catch (error) {
