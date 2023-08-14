@@ -16,8 +16,11 @@ export const Title = styled.h1`
 `;
 
 export const Label = styled.h1`
-  font-size: 24px;
+  font-size: 34px;
   margin-bottom: 10px;
+  font-family: Roboto;
+  font-weight: 400;
+  line-height: 39.84px;
 `;
 
 export const Row = styled.div`
