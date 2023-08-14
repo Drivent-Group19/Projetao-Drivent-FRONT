@@ -18,6 +18,7 @@ export default function Hotel() {
   const [selectedHotelId, setSelectedHotelId] = useState(0);
   const [selectedHotel, setSelectedHotel]= useState({});
   const [book, setBook]= useState({});
+  const [buttons, setButtons]= useState({});
 
   useEffect( () => {
     if(ticket) {
@@ -36,7 +37,6 @@ export default function Hotel() {
     setSelectedHotelId(info.id);
     setSelectedHotel(info);
   }
-
   console.log(ticket);
  
   return (<div>
@@ -71,7 +71,7 @@ height: 280px;
 margin-top:20px;
 overflow-x: scroll`;
 
-const Button= styled.button `
+const Button= styled.button`
 background-color: transparent;
 height: 240px;
 width:210px;
@@ -83,8 +83,9 @@ width: 800px;
 margin-top: 40px;
 margin-left:40px;
 `;
+
 const MessageContainer = styled.div`
-  size: 20px;
+  font-size: 20px;
   line-height: 23.44px;
   text-align: center;
   color: #8E8E8E;

@@ -59,9 +59,11 @@ export default function PersonalInformationForm() {
       };
 
       try {
+        console.log('dataEnrollment', newData);
         await saveEnrollment(newData);
         toast('Informações salvas com sucesso!');
       } catch (err) {
+        console.log('erro dataEnroll', err);
         toast('Não foi possível salvar suas informações!');
       }
     },
