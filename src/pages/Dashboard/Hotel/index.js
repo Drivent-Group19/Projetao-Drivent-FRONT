@@ -30,8 +30,6 @@ export default function Hotel() {
     }
   }, [ticket]);
 
-  const [buttons, setButtons]= useState('');
-
   function Select(info) {
     setButtons(info.name);
     setSelectedHotelId(info.id);
