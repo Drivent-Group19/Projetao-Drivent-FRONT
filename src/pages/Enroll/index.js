@@ -44,7 +44,7 @@ export default function Enroll() {
  
   function githubLogin() {
     const GITHUB_URL = 'https://github.com/login/oauth/authorize';
-    const CLIENT_ID = '4d73cdc8e1cc4f553a6a';
+    const CLIENT_ID = 'd8892910e88f530e97df';
     const params = new URLSearchParams({
       response_type: 'code',
       scope: 'user',

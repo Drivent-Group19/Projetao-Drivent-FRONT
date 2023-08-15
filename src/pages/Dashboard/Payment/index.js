@@ -58,7 +58,7 @@ export default function Payment() {
     setOptionTwo('');
     setIsRemote(true);
     setName(enrollment.name);
-    setId(enrollment.id);
+    setId(1);
     setIncludeshotel(false);
   }
 
@@ -66,6 +66,7 @@ export default function Payment() {
     setValue(value + 350);
     setHotel(i);
     setOptionTwo(i);
+    setId(3);
     setIncludeshotel(true);
   }
 
@@ -73,6 +74,7 @@ export default function Payment() {
     setValue(250);
     setHotel(i);
     setOptionTwo(i);
+    setId(2);
     setIncludeshotel(false);
   }
 
@@ -124,8 +126,8 @@ export default function Payment() {
               Fechado! O total ficou em R${value}. Agora é só confirmar:
             </Category>
             <Reserv onClick={() =>
-              reserveTicket({ ticketTypeId: typeSelected.id }, token, setReserved('reserved'))
-                .then(data => console.log(data))
+              reserveTicket({ ticketTypeId: typeSelected.id }, token)
+                .then((res) => setReserved('reserved'))
                 .catch((err) => console.log(err))}>
               <p>Reservar Ingresso</p>
             </Reserv>
