@@ -1,12 +1,13 @@
 import api from './api';
 
 export async function save(body, token) {
+  console.log('entrou no useSave', body, token);
   const response = await api.post('/enrollments', body, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-
+  console.log('entrou no Save', response.data);
   return response.data;
 }
 
