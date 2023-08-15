@@ -27,10 +27,8 @@ export default function Hotel() {
       setIngresso(ticket);
       console.log(ticket)
       ;
-    }
+    } 
   }, [ticket]);
-
-  const [buttons, setButtons]= useState('');
 
   function Select(info) {
     setButtons(info.name);

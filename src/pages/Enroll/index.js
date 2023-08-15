@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import dotenv from 'dotenv';
 
 import AuthLayout from '../../layouts/Auth';
 
@@ -44,8 +45,10 @@ export default function Enroll() {
  
   function githubLogin() {
     const GITHUB_URL = 'https://github.com/login/oauth/authorize';
+    //const CLIENT_ID = process.env;
     const CLIENT_ID = '4d73cdc8e1cc4f553a6a';
-    const params = new URLSearchParams({
+    //const CLIENT_ID = process.env.CLIENT_ID;
+    const params = new URLSearchParams({ 
       response_type: 'code',
       scope: 'user',
       client_id: CLIENT_ID,
@@ -64,7 +67,7 @@ export default function Enroll() {
     if (code) {
       try {
         const response = await api.post('/authGitHub/login', { code });
-        console.log('resp do api', response);
+        //console.log('resp do api', response);
         const { token } = response.data;
         localStorage.setItem('token', token);
         window.location.href = 'http://localhost:3000/dashboard'; 
