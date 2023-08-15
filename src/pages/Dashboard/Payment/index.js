@@ -14,6 +14,7 @@ import { toast } from 'react-toastify';
 export default function Payment() {
   const { enrollment } = useEnrollment();
   const token = useToken();
+  console.log(token);
   const [value, setValue] = useState(0);
   const [model, setModel] = useState('');
   const [hotel, setHotel] = useState('');
