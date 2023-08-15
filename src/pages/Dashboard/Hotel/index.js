@@ -62,12 +62,13 @@ color: lightgrey;`;
 
 const CardContainer = styled.div `
 display:flex;
-flex-direction:row;
+flex-direction:row;;
 align-items: center;
 justify-content: space-evenly;
 height: 280px;
 margin-top:20px;
-overflow-x: scroll`;
+overflow-x: scroll;
+width:1200px;`;
 
 const Button= styled.button`
 background-color: transparent;
