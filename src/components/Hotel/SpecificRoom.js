@@ -26,6 +26,8 @@ export default function SpecificRoom({ roomInfo, disabled, cor }) {
     }
   }
 
+  console.log(quantidade);
+
   return (
     <Container unavailable={tam === notAvailable} disabled={disabled} cor={cor}>
       <Div>{roomInfo.id}</Div>
