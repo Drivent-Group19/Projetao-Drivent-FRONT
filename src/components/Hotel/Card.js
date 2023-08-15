@@ -33,7 +33,9 @@ export default function Card({ hotelInfo, selected }) {
     <Container selected={selected}>
       <Image src={hotelInfo.image} alt="imagem"/>
       <Name>{hotelInfo.name}</Name>
-      <Details>Tipo de Acomodação: <div>{frase}</div>
+      <Details>Tipo de Acomodação: <div>{types?.includes(3) && types?.includes(2) && types?.includes(1) ? 'Single,Double e Triple' : 
+        types.includes(1) && types.includes(2) ? 'Single e Double' : types.includes(1) && types.includes(3) ? 'Single e Triple' : 
+          types.includes(2) && types.includes(3) ? 'Double e Triple' : types.includes(1) ? 'Singles' : types.includes(2) ? 'Double' : 'Triple'}</div>
       </Details>
       <Details>Vagas disponíveis: <div>{available}</div>
       </Details>
