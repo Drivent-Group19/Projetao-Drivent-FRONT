@@ -4,7 +4,16 @@ Front-end for Driven.t, an event management solution.
 
 ## About
 
-Driven.t is a web browser application  which you can register and choose an event and its details
+Driven.t is a web browser application  which you can register and choose an event and its details. Some of the technolgies and market rules that were implemented in this project are listed below:
+
+- React.js
+- React Router
+- Architecture (Services, Components, Pages, Hooks etc.)
+- Javascript
+- Styled Components
+- Contexts
+- API Connection
+  
 In the following link, you can check out the running app:
 https://www.loom.com/share/052776e6dc57431982dbf3934b756594?sid=c2bfce2d-e869-4978-836b-1fcf7aa117f3
 
