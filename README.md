@@ -4,7 +4,7 @@ Front-end for Driven.t, an event management solution.
 
 ## About
 
-Driven.t is a web browser application with which you can manage every single aspect of your event.
+Driven.t is a web browser application  which you can register and choose an event and its details
 
 ## How to run for development
 
