@@ -5,6 +5,14 @@ Front-end for Driven.t, an event management solution.
 ## About
 
 Driven.t is a web browser application  which you can register and choose an event and its details
+In the following link, you can check out the running app:
+https://www.loom.com/share/052776e6dc57431982dbf3934b756594?sid=c2bfce2d-e869-4978-836b-1fcf7aa117f3
+
+https://github.com/Drivent-Group19/Projetao-Drivent-FRONT/assets/122137155/6eda8f28-dd6b-43f4-a9cd-77e5c2b47c2d
+
+
+
+
 
 ## How to run for development
 
